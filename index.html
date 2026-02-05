@@ -162,7 +162,8 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid transparent;
+            border: 1px solid #e0e0e8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .semester-card.disabled {
@@ -173,6 +174,7 @@
         .semester-card:hover:not(.disabled) {
             border-color: var(--accent-color);
             transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(94, 96, 206, 0.15);
         }
 
         .semester-card h3 {
@@ -402,7 +404,7 @@
         }
 
         .platform-card {
-            background: var(--bg-card);
+            background: white;
             border-radius: var(--border-radius);
             padding: 20px;
             text-align: center;
@@ -412,12 +414,14 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            border: 1px solid transparent;
+            border: 1px solid #e5e7eb;
+            transition: all 0.25s ease;
         }
 
         .platform-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-6px);
             border-color: var(--accent-color);
+            box-shadow: 0 10px 25px rgba(94, 96, 206, 0.18);
         }
 
         .platform-card i {
