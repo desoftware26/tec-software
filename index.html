@@ -3,168 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Malla Curricular App - Erik</title>
-    <!-- Favicon simple -->
+    <title>Malla App - Erik | Desarrollo de Software</title>
+    <!-- Favicon -->
     <link rel="icon" href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA">
-    <!-- Bootstrap 5 CDN -->
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Modern CSS: gradients, shadows, app-like feel -->
+    <!-- Estilos modernos app-like -->
     <style>
         body {
-            background: linear-gradient(135deg, #f0f4f8, #d9e2ec); /* Modern gradient */
-            color: #333;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             min-height: 100vh;
-            overflow-y: auto;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
         }
-        .app-container {
-            flex: 1;
-            padding-top: 60px; /* For top navbar */
-            padding-bottom: 60px; /* For bottom navbar */
+        .app-header {
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
-        .navbar-top {
-            background: linear-gradient(to right, #4a90e2, #50c878); /* Modern colors */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .navbar-bottom {
+        .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: white;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(255,255,255,0.2);
             z-index: 1000;
-            padding: 10px 0;
+            padding: 8px 0;
         }
-        .navbar-bottom .btn {
+        .bottom-nav .btn {
             background: transparent;
             border: none;
-            color: #666;
-            font-size: 0.8rem;
-            text-align: center;
-            transition: color 0.3s, transform 0.2s;
+            color: white;
+            font-size: 0.75rem;
+            padding: 6px;
+            transition: all 0.3s;
         }
-        .navbar-bottom .btn.active, .navbar-bottom .btn:hover {
-            color: #4a90e2;
-            transform: scale(1.1);
+        .bottom-nav .btn:hover, .bottom-nav .btn:focus {
+            color: #ffd166;
+            transform: translateY(-4px);
         }
-        .accordion-button {
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
-            transition: background 0.3s;
-        }
-        .accordion-button:not(.collapsed) {
-            background: #e8f4fd;
-        }
-        .list-group-item {
-            border-radius: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-        }
-        .list-group-item:hover {
-            transform: translateY(-2px);
-        }
-        .modal-content {
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .btn-primary {
-            background: #4a90e2;
+        .card-semestre {
+            background: rgba(255,255,255,0.15);
             border: none;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.37);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: transform 0.3s;
         }
-        .btn-success {
-            background: #50c878;
+        .card-semestre:hover {
+            transform: translateY(-8px);
         }
-        .btn-warning {
-            background: #f5a623;
-            color: white !important;
+        .card-header {
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            color: white;
+            border-radius: 16px 16px 0 0;
+            padding: 15px;
+            font-weight: bold;
         }
-        .btn-dark {
-            background: #333;
+        .table-horario th, .table-horario td {
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid rgba(255,255,255,0.2);
         }
+        .table-horario thead th {
+            background: rgba(0,0,0,0.5);
+        }
+        .no-clase { background: rgba(0,0,0,0.3); color: #aaa; }
+        .modal-content {
+            background: rgba(30,30,50,0.95);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .modal-header { border-bottom: 1px solid rgba(255,255,255,0.2); }
+        .form-control { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; }
+        .form-control::placeholder { color: rgba(255,255,255,0.6); }
     </style>
 </head>
 <body>
 
-    <!-- Top Navbar (fixed) -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-top fixed-top">
+    <!-- Header superior fijo -->
+    <nav class="navbar navbar-expand-lg app-header">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Malla App Erik</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand text-white fw-bold" href="#">Malla Erik</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse" id="topNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="https://campus.tecnologicocomfenalco.edu.co" target="_blank">Campus</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://ferrum.tecnologicocomfenalco.edu.co" target="_blank">Ferrum</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://outlook.office.com" target="_blank">Outlook</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="https://campus.tecnologicocomfenalco.edu.co" target="_blank">Campus</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="https://ferrum.tecnologicocomfenalco.edu.co" target="_blank">Ferrum</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="https://outlook.office.com" target="_blank">Outlook</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="app-container container">
-        <h1 class="text-center mb-4">Malla Curricular Interactiva</h1>
-        <p class="text-center lead">Tecnólogo en Desarrollo de Software (1-6) → Ingeniería de Sistemas (7-10)<br>Semestre Actual: 2026-1</p>
+    <!-- Contenido principal -->
+    <div class="container pt-5 mt-4 pb-5 mb-5">
 
-        <!-- Tecnólogo Section -->
-        <h2 class="mt-5 text-center">Tecnólogo en Desarrollo de Software</h2>
-        <div class="accordion" id="tecAccordion">
-            <div class="accordion-item">
-                <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#s1" aria-expanded="true">Semestre 1 (Actual)</button></h2>
-                <div id="s1" class="accordion-collapse collapse show">
-                    <div class="accordion-body">
-                        <ul class="list-group">
-                            <li class="list-group-item"><strong>Algoritmo y Programación</strong><div class="card mt-2"><div class="card-body">Clase: 3265<br>Horario: Mié 18:45-21:00 (LABSB_F503), Jue 18:45-20:15 (ADPSB_D403)<br>Prof: No disp. | Correo/Tel: No disp.</div></div></li>
-                            <li class="list-group-item"><strong>Precálculo</strong><div class="card mt-2"><div class="card-body">Clase: 1899<br>Horario: Vie 18:45-20:15 (AULSC_201), Mar 20:15-21:45 (AULSC_314)<br>Prof: No disp.</div></div></li>
-                            <li class="list-group-item"><strong>Comunicación Oral y Escrita</strong><div class="card mt-2"><div class="card-body">Clase: 3262<br>Horario: Lun 20:15-21:45 (AULSC_411)<br>Prof: No disp.</div></div></li>
-                            <li class="list-group-item"><strong>Proyecto de Vida</strong><div class="card mt-2"><div class="card-body">Clase: 2678<br>Horario: Mar 18:45-20:15 (AULSC_308)<br>Prof: No disp.</div></div></li>
-                            <li class="list-group-item"><strong>Ambiente y Desarrollo</strong><div class="card mt-2"><div class="card-body">Clase: 2670<br>Horario: Lun 18:45-20:15 (AULSC_411)<br>Prof: No disp.</div></div></li>
+        <h2 class="text-center mb-4 fw-bold">Horario Semanal - Semestre 1 (2026-1)</h2>
+        <div class="card card-semestre">
+            <div class="card-header text-center">Horario Nocturno</div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-horario table-dark m-0">
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Lunes</th>
+                                <th>Martes</th>
+                                <th>Miércoles</th>
+                                <th>Jueves</th>
+                                <th>Viernes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>18:45 - 20:15</td>
+                                <td class="bg-primary-subtle text-dark">Ambiente y Desarrollo<br><small>AULSC_411</small></td>
+                                <td class="bg-success-subtle text-dark">Proyecto de Vida<br><small>AULSC_308</small></td>
+                                <td class="bg-info-subtle text-dark">Algoritmo y Programación<br><small>LABSB_F503</small></td>
+                                <td class="bg-warning-subtle text-dark">Algoritmo y Programación<br><small>ADPSB_D403</small></td>
+                                <td class="bg-danger-subtle text-dark">Precálculo<br><small>AULSC_201</small></td>
+                            </tr>
+                            <tr>
+                                <td>20:15 - 21:45</td>
+                                <td class="bg-primary-subtle text-dark">Comunicación Oral y Escrita<br><small>AULSC_411</small></td>
+                                <td class="bg-info-subtle text-dark">Precálculo<br><small>AULSC_314</small></td>
+                                <td class="no-clase" colspan="3">Sin clase</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-center mt-5 mb-4 fw-bold">Malla Curricular por Semestre</h2>
+        <div class="row g-4">
+
+            <!-- Semestre 1 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card card-semestre">
+                    <div class="card-header text-center">Semestre 1 (Actual)</div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item bg-transparent text-white border-bottom border-white border-opacity-25">Algoritmo y Programación</li>
+                            <li class="list-group-item bg-transparent text-white border-bottom border-white border-opacity-25">Precálculo</li>
+                            <li class="list-group-item bg-transparent text-white border-bottom border-white border-opacity-25">Comunicación Oral y Escrita</li>
+                            <li class="list-group-item bg-transparent text-white border-bottom border-white border-opacity-25">Proyecto de Vida</li>
+                            <li class="list-group-item bg-transparent text-white">Ambiente y Desarrollo</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#s2">Semestre 2</button></h2><div id="s2" class="accordion-collapse collapse"><div class="accordion-body">No disponible.</div></div></div>
-            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#s3">Semestre 3</button></h2><div id="s3" class="accordion-collapse collapse"><div class="accordion-body">No disponible.</div></div></div>
-            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#s4">Semestre 4</button></h2><div id="s4" class="accordion-collapse collapse"><div class="accordion-body">No disponible.</div></div></div>
-            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#s5">Semestre 5</button></h2><div id="s5" class="accordion-collapse collapse"><div class="accordion-body">No disponible.</div></div></div>
-            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#s6">Semestre 6</button></h2><div id="s6" class="accordion-collapse collapse"><div class="accordion-body">No disponible.</div></div></div>
-        </div>
 
-        <!-- Ingeniería Section -->
-        <h2 class="mt-5 text-center">Ingeniería de Sistemas</h2>
-        <div class="accordion" id="ingAccordion">
-            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#s7">Semestre 7</button></h2><div id="s7" class="accordion-collapse collapse"><div class="accordion-body">No disponible.</div></div></div>
-            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#s8">Semestre 8</button></h2><div id="s8" class="accordion-collapse collapse"><div class="accordion-body">No disponible.</div></div></div>
-            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#s9">Semestre 9</button></h2><div id="s9" class="accordion-collapse collapse"><div class="accordion-body">No disponible.</div></div></div>
-            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#s10">Semestre 10</button></h2><div id="s10" class="accordion-collapse collapse"><div class="accordion-body">No disponible.</div></div></div>
+            <!-- Otros semestres (2-6) -->
+            <div class="col-12 col-md-6 col-lg-4"><div class="card card-semestre"><div class="card-header text-center">Semestre 2</div><div class="card-body text-center py-5"><p class="text-white-50">No disponible aún</p></div></div></div>
+            <div class="col-12 col-md-6 col-lg-4"><div class="card card-semestre"><div class="card-header text-center">Semestre 3</div><div class="card-body text-center py-5"><p class="text-white-50">No disponible aún</p></div></div></div>
+            <div class="col-12 col-md-6 col-lg-4"><div class="card card-semestre"><div class="card-header text-center">Semestre 4</div><div class="card-body text-center py-5"><p class="text-white-50">No disponible aún</p></div></div></div>
+            <div class="col-12 col-md-6 col-lg-4"><div class="card card-semestre"><div class="card-header text-center">Semestre 5</div><div class="card-body text-center py-5"><p class="text-white-50">No disponible aún</p></div></div></div>
+            <div class="col-12 col-md-6 col-lg-4"><div class="card card-semestre"><div class="card-header text-center">Semestre 6</div><div class="card-body text-center py-5"><p class="text-white-50">No disponible aún</p></div></div></div>
+
+            <!-- Ingeniería (7-10) -->
+            <div class="col-12"><h3 class="text-center mt-4">Ingeniería de Sistemas</h3></div>
+            <div class="col-12 col-md-6 col-lg-3"><div class="card card-semestre"><div class="card-header text-center">Semestre 7</div><div class="card-body text-center py-5"><p class="text-white-50">No disponible</p></div></div></div>
+            <div class="col-12 col-md-6 col-lg-3"><div class="card card-semestre"><div class="card-header text-center">Semestre 8</div><div class="card-body text-center py-5"><p class="text-white-50">No disponible</p></div></div></div>
+            <div class="col-12 col-md-6 col-lg-3"><div class="card card-semestre"><div class="card-header text-center">Semestre 9</div><div class="card-body text-center py-5"><p class="text-white-50">No disponible</p></div></div></div>
+            <div class="col-12 col-md-6 col-lg-3"><div class="card card-semestre"><div class="card-header text-center">Semestre 10</div><div class="card-body text-center py-5"><p class="text-white-50">No disponible</p></div></div></div>
         </div>
     </div>
 
-    <!-- Bottom Fixed Navbar (Instagram-like) -->
-    <nav class="navbar navbar-bottom d-flex justify-content-around">
-        <button class="btn" data-bs-toggle="modal" data-bs-target="#modalPlataformas">PLATAFORMAS</button>
-        <button class="btn" onclick="document.getElementById('tecAccordion').scrollIntoView({behavior: 'smooth'});">MALLA</button>
-        <button class="btn" data-bs-toggle="modal" data-bs-target="#modalHorario">HORARIO</button>
-        <button class="btn" data-bs-toggle="modal" data-bs-target="#modalNotas">NOTAS</button>
+    <!-- Barra inferior fija tipo Instagram -->
+    <nav class="bottom-nav d-flex justify-content-around align-items-center">
+        <button class="btn" data-bs-toggle="modal" data-bs-target="#modalPlataformas">Plataformas</button>
+        <button class="btn" onclick="window.scrollTo({top: document.querySelector('.row.g-4').offsetTop - 100, behavior: 'smooth'})">Malla</button>
+        <button class="btn" data-bs-toggle="modal" data-bs-target="#modalHorario">Horario</button>
+        <button class="btn" data-bs-toggle="modal" data-bs-target="#modalNotas">Notas</button>
     </nav>
 
-    <!-- Modals (same as before, but with modern styles) -->
+    <!-- Modales (mismos de antes, adaptados al estilo oscuro) -->
     <div class="modal fade" id="modalPlataformas">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header"><h5>Plataformas</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-header"><h5>Plataformas</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body text-center">
-                    <a href="https://campus.tecnologicocomfenalco.edu.co" target="_blank" class="btn btn-primary btn-lg w-100 mb-3">Campus</a>
-                    <a href="https://ferrum.tecnologicocomfenalco.edu.co" target="_blank" class="btn btn-primary btn-lg w-100 mb-3">Ferrum</a>
-                    <a href="https://outlook.office.com" target="_blank" class="btn btn-primary btn-lg w-100">Outlook</a>
+                    <a href="https://campus.tecnologicocomfenalco.edu.co" target="_blank" class="btn btn-primary w-100 mb-3">Campus Virtual</a>
+                    <a href="https://ferrum.tecnologicocomfenalco.edu.co" target="_blank" class="btn btn-primary w-100 mb-3">Ferrum</a>
+                    <a href="https://outlook.office.com" target="_blank" class="btn btn-primary w-100">Correo Outlook</a>
                 </div>
             </div>
         </div>
@@ -173,17 +210,10 @@
     <div class="modal fade" id="modalHorario">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header"><h5>Horario Semestre 1</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-header"><h5>Horario Semestre 1</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead class="table-dark"><tr><th>Hora</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th></tr></thead>
-                            <tbody>
-                                <tr><td>18:45-20:15</td><td>Ambiente (411)</td><td>Proyecto (308)</td><td>Algo (F503)</td><td>Algo (D403)</td><td>Precál (201)</td></tr>
-                                <tr><td>20:15-21:45</td><td>Comu (411)</td><td>Precál (314)</td><td colspan="3"></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <!-- Aquí puedes repetir la tabla del horario si quieres una vista modal ampliada -->
+                    <p class="text-center">Ver la tabla arriba o consulta en Campus para actualizaciones.</p>
                 </div>
             </div>
         </div>
@@ -192,57 +222,56 @@
     <div class="modal fade" id="modalNotas">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header"><h5>Calculadora Notas (30-30-40)</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-header"><h5>Calculadora de Notas 30-30-40</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body">
-                    <p class="text-center fw-bold">Corte 1: 30% | Corte 2: 30% | Corte 3: 40%</p>
-                    <div class="row">
+                    <p class="text-center">Corte 1 (30%) | Corte 2 (30%) | Corte 3 (40%)</p>
+                    <div class="row g-3">
                         <div class="col-md-4">
                             <h6>Corte 1</h6>
                             <input type="number" id="c1_n1" class="form-control mb-2" placeholder="Nota 1 (0-5)" min="0" max="5" step="0.1">
-                            <input type="number" id="c1_p1" class="form-control mb-2" placeholder="% Nota 1" min="0" max="100">
-                            <button class="btn btn-secondary btn-sm" onclick="calcularCorte('c1')">Calc Corte 1</button>
-                            <p id="resultadoC1"></p>
+                            <input type="number" id="c1_p1" class="form-control mb-2" placeholder="% de la nota" min="0" max="100">
+                            <button class="btn btn-secondary w-100 btn-sm" onclick="calcularCorte('c1')">Calcular Corte 1</button>
+                            <p id="resultadoC1" class="mt-2 text-center fw-bold"></p>
                         </div>
                         <div class="col-md-4">
                             <h6>Corte 2</h6>
                             <input type="number" id="c2_n1" class="form-control mb-2" placeholder="Nota 1 (0-5)" min="0" max="5" step="0.1">
-                            <input type="number" id="c2_p1" class="form-control mb-2" placeholder="% Nota 1" min="0" max="100">
-                            <button class="btn btn-secondary btn-sm" onclick="calcularCorte('c2')">Calc Corte 2</button>
-                            <p id="resultadoC2"></p>
+                            <input type="number" id="c2_p1" class="form-control mb-2" placeholder="% de la nota" min="0" max="100">
+                            <button class="btn btn-secondary w-100 btn-sm" onclick="calcularCorte('c2')">Calcular Corte 2</button>
+                            <p id="resultadoC2" class="mt-2 text-center fw-bold"></p>
                         </div>
                         <div class="col-md-4">
                             <h6>Corte 3</h6>
                             <input type="number" id="c3_n1" class="form-control mb-2" placeholder="Nota 1 (0-5)" min="0" max="5" step="0.1">
-                            <input type="number" id="c3_p1" class="form-control mb-2" placeholder="% Nota 1" min="0" max="100">
-                            <button class="btn btn-secondary btn-sm" onclick="calcularCorte('c3')">Calc Corte 3</button>
-                            <p id="resultadoC3"></p>
+                            <input type="number" id="c3_p1" class="form-control mb-2" placeholder="% de la nota" min="0" max="100">
+                            <button class="btn btn-secondary w-100 btn-sm" onclick="calcularCorte('c3')">Calcular Corte 3</button>
+                            <p id="resultadoC3" class="mt-2 text-center fw-bold"></p>
                         </div>
                     </div>
-                    <button class="btn btn-success w-100 mt-3" onclick="calcularFinal()">Calcular Final</button>
-                    <h4 id="promedioFinal" class="text-center mt-3"></h4>
+                    <button class="btn btn-warning w-100 mt-4 fw-bold" onclick="calcularFinal()">Calcular Promedio Final</button>
+                    <h4 id="promedioFinal" class="text-center mt-3 display-6 fw-bold"></h4>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- JS for Notas -->
     <script>
         function calcularCorte(corte) {
-            const n1 = parseFloat(document.getElementById(corte + '_n1').value) || 0;
-            const p1 = parseFloat(document.getElementById(corte + '_p1').value) || 0;
-            const ponderado = (n1 * p1) / 100;
-            document.getElementById('resultado' + corte.toUpperCase()).innerHTML = `Corte: ${ponderado.toFixed(2)}`;
-            return ponderado;
+            let n = parseFloat(document.getElementById(corte + '_n1').value) || 0;
+            let p = parseFloat(document.getElementById(corte + '_p1').value) || 0;
+            let res = (n * (p / 100)).toFixed(2);
+            document.getElementById('resultado' + corte.toUpperCase()).textContent = res;
+            return parseFloat(res);
         }
         function calcularFinal() {
-            const c1 = calcularCorte('c1') * 0.3;
-            const c2 = calcularCorte('c2') * 0.3;
-            const c3 = calcularCorte('c3') * 0.4;
-            const final = c1 + c2 + c3;
-            const color = final >= 3 ? 'text-success' : 'text-danger';
-            document.getElementById('promedioFinal').innerHTML = `<span class="${color}">${final.toFixed(2)}</span>/5`;
+            let c1 = calcularCorte('c1') * 0.3;
+            let c2 = calcularCorte('c2') * 0.3;
+            let c3 = calcularCorte('c3') * 0.4;
+            let final = (c1 + c2 + c3).toFixed(2);
+            let color = final >= 3.0 ? 'text-success' : 'text-danger';
+            document.getElementById('promedioFinal').innerHTML = `<span class="${color}">${final}</span> / 5.0`;
         }
     </script>
 </body>
