@@ -166,7 +166,12 @@
             border: 1px solid transparent;
         }
 
-        .semester-card:hover {
+        .semester-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .semester-card:hover:not(.disabled) {
             border-color: var(--accent-color);
             transform: scale(1.03);
         }
@@ -198,6 +203,13 @@
             align-items: center;
             cursor: pointer;
             border-left: 4px solid var(--accent-color);
+        }
+
+        .schedule-day {
+            font-weight: bold;
+            color: var(--accent-secondary);
+            font-size: 1rem;
+            margin-bottom: 5px;
         }
 
         .schedule-time {
@@ -375,6 +387,12 @@
             margin: 10px 0;
         }
 
+        .corte-result {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: var(--accent-secondary);
+        }
+
         /* Platforms */
         .platforms-grid {
             display: grid;
@@ -449,60 +467,60 @@
         </header>
 
         <!-- Content Sections -->
-        <section id="malla-section" class="content-section active">
+        <section id="malla-section" class="content-section">
             <div class="card">
                 <h2 class="card-title"><i class="fas fa-th-large"></i> Malla Curricular</h2>
                 <p>Selecciona un semestre para ver las asignaturas</p>
                 
                 <div class="semester-grid">
-                    <!-- Semesters 1-6 (Technology) -->
+                    <!-- Only Semester 1 available -->
                     <div class="semester-card" data-semester="1">
                         <h3>Semestre 1</h3>
-                        <p class="subject-count">6 asignaturas</p>
+                        <p class="subject-count">5 asignaturas</p>
                         <p class="subject-count">Tecnología</p>
                     </div>
-                    <div class="semester-card" data-semester="2">
+                    <!-- Other semesters disabled -->
+                    <div class="semester-card disabled" data-semester="2">
                         <h3>Semestre 2</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Tecnología</p>
                     </div>
-                    <div class="semester-card" data-semester="3">
+                    <div class="semester-card disabled" data-semester="3">
                         <h3>Semestre 3</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Tecnología</p>
                     </div>
-                    <div class="semester-card" data-semester="4">
+                    <div class="semester-card disabled" data-semester="4">
                         <h3>Semestre 4</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Tecnología</p>
                     </div>
-                    <div class="semester-card" data-semester="5">
+                    <div class="semester-card disabled" data-semester="5">
                         <h3>Semestre 5</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Tecnología</p>
                     </div>
-                    <div class="semester-card" data-semester="6">
+                    <div class="semester-card disabled" data-semester="6">
                         <h3>Semestre 6</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Tecnología</p>
                     </div>
-                    <!-- Semesters 7-10 (Engineering) -->
-                    <div class="semester-card" data-semester="7">
+                    <div class="semester-card disabled" data-semester="7">
                         <h3>Semestre 7</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Ingeniería</p>
                     </div>
-                    <div class="semester-card" data-semester="8">
+                    <div class="semester-card disabled" data-semester="8">
                         <h3>Semestre 8</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Ingeniería</p>
                     </div>
-                    <div class="semester-card" data-semester="9">
+                    <div class="semester-card disabled" data-semester="9">
                         <h3>Semestre 9</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Ingeniería</p>
                     </div>
-                    <div class="semester-card" data-semester="10">
+                    <div class="semester-card disabled" data-semester="10">
                         <h3>Semestre 10</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Ingeniería</p>
@@ -511,7 +529,7 @@
             </div>
         </section>
 
-        <section id="horario-section" class="content-section">
+        <section id="horario-section" class="content-section active">
             <div class="card">
                 <h2 class="card-title"><i class="fas fa-calendar-alt"></i> Horario - 1er Semestre 2026</h2>
                 <div class="schedule-list">
@@ -525,58 +543,57 @@
                 <h2 class="card-title"><i class="fas fa-calculator"></i> Calculadora de Notas</h2>
                 <form class="grade-form" id="grade-form">
                     <div class="grade-input-group">
-                        <label for="subject-name">Nombre de la Asignatura</label>
-                        <input type="text" id="subject-name" class="grade-input" placeholder="Ej: Matemáticas I" required>
+                        <label for="subject-select">Selecciona una Asignatura</label>
+                        <select id="subject-select" class="grade-input">
+                            <option value="">Selecciona una asignatura</option>
+                            <!-- Options populated by JS -->
+                        </select>
                     </div>
                     
-                    <!-- Corte 1 -->
-                    <div class="card">
-                        <h3>Corte 1 (30%)</h3>
-                        <div id="corte1-grades">
-                            <div class="grade-input-group">
-                                <input type="number" class="grade-input grade-input-corte1" placeholder="Nota (0-5)" min="0" max="5" step="0.1">
-                                <input type="number" class="grade-input percentage-input-corte1" placeholder="Porcentaje (%)" min="0" max="100">
-                                <span class="percentage-label">Porcentaje restante: <span id="remaining-corte1">100</span>%</span>
+                    <div id="grades-container" class="hidden">
+                        <!-- Corte 1 -->
+                        <div class="card">
+                            <h3>Corte 1 (30%)</h3>
+                            <div id="corte1-grades">
+                                <!-- Grades populated by JS -->
                             </div>
+                            <button type="button" class="add-grade-btn" data-corte="1">+ Agregar Nota</button>
+                            <button type="button" class="action-button calculate-corte" data-corte="1">Calcular Corte 1</button>
+                            <div id="corte1-result" class="corte-result"></div>
                         </div>
-                        <button type="button" class="add-grade-btn" data-corte="1">+ Agregar Nota</button>
-                    </div>
-                    
-                    <!-- Corte 2 -->
-                    <div class="card">
-                        <h3>Corte 2 (30%)</h3>
-                        <div id="corte2-grades">
-                            <div class="grade-input-group">
-                                <input type="number" class="grade-input grade-input-corte2" placeholder="Nota (0-5)" min="0" max="5" step="0.1">
-                                <input type="number" class="grade-input percentage-input-corte2" placeholder="Porcentaje (%)" min="0" max="100">
-                                <span class="percentage-label">Porcentaje restante: <span id="remaining-corte2">100</span>%</span>
+                        
+                        <!-- Corte 2 -->
+                        <div class="card">
+                            <h3>Corte 2 (30%)</h3>
+                            <div id="corte2-grades">
+                                <!-- Grades populated by JS -->
                             </div>
+                            <button type="button" class="add-grade-btn" data-corte="2">+ Agregar Nota</button>
+                            <button type="button" class="action-button calculate-corte" data-corte="2">Calcular Corte 2</button>
+                            <div id="corte2-result" class="corte-result"></div>
                         </div>
-                        <button type="button" class="add-grade-btn" data-corte="2">+ Agregar Nota</button>
-                    </div>
-                    
-                    <!-- Corte 3 -->
-                    <div class="card">
-                        <h3>Corte 3 (40%)</h3>
-                        <div id="corte3-grades">
-                            <div class="grade-input-group">
-                                <input type="number" class="grade-input grade-input-corte3" placeholder="Nota (0-5)" min="0" max="5" step="0.1">
-                                <input type="number" class="grade-input percentage-input-corte3" placeholder="Porcentaje (%)" min="0" max="100">
-                                <span class="percentage-label">Porcentaje restante: <span id="remaining-corte3">100</span>%</span>
+                        
+                        <!-- Corte 3 -->
+                        <div class="card">
+                            <h3>Corte 3 (40%)</h3>
+                            <div id="corte3-grades">
+                                <!-- Grades populated by JS -->
                             </div>
+                            <button type="button" class="add-grade-btn" data-corte="3">+ Agregar Nota</button>
+                            <button type="button" class="action-button calculate-corte" data-corte="3">Calcular Corte 3</button>
+                            <div id="corte3-result" class="corte-result"></div>
                         </div>
-                        <button type="button" class="add-grade-btn" data-corte="3">+ Agregar Nota</button>
+                        
+                        <button type="submit" class="action-button" style="width: 100%; margin-top: 20px;">
+                            <i class="fas fa-calculator"></i> Calcular Nota Final
+                        </button>
                     </div>
-                    
-                    <button type="submit" class="action-button" style="width: 100%; margin-top: 20px;">
-                        <i class="fas fa-calculator"></i> Calcular Nota Final
-                    </button>
                 </form>
                 
                 <div id="result-container" class="hidden">
                     <div class="result-card">
                         <h3>Resultado Final</h3>
-                        <p id="result-subject">Matemáticas I</p>
+                        <p id="result-subject">Asignatura</p>
                         <div class="final-grade" id="final-grade">0.0</div>
                         <p id="result-status"></p>
                     </div>
@@ -624,13 +641,26 @@
         </div>
     </div>
 
+    <!-- Modal for semester subjects -->
+    <div class="modal" id="semester-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Asignaturas del Semestre</h3>
+                <button class="close-modal" id="close-semester-modal">&times;</button>
+            </div>
+            <div id="semester-body">
+                <!-- Subjects list will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <!-- Tab Bar -->
     <nav class="tab-bar">
-        <button class="tab-button active" data-tab="malla-section">
+        <button class="tab-button" data-tab="malla-section">
             <i class="fas fa-th-large"></i>
             <span>Malla</span>
         </button>
-        <button class="tab-button" data-tab="horario-section">
+        <button class="tab-button active" data-tab="horario-section">
             <i class="fas fa-calendar-alt"></i>
             <span>Horario</span>
         </button>
@@ -690,46 +720,92 @@
             initializeSemesterCards();
         });
 
-        // Schedule Data and Modal
+        // Subjects from Excel malla curricular for semester 1
+        const subjects = [
+            "Algoritmo y Programación",
+            "Precálculo",
+            "Comunicación Oral y Escrita",
+            "Proyecto de Vida",
+            "Ambiente y Desarrollo"
+        ];
+
+        // Schedule Data from Excel horario (with invented professor details since not in Excel)
         function initializeSchedule() {
             const scheduleData = [
                 {
-                    time: "07:00 - 09:00",
-                    subject: "Matemáticas I",
+                    day: "LUNES",
+                    time: "18:45 - 20:15",
+                    subject: "Ambiente y Desarrollo",
                     professor: "Dr. Carlos Rodríguez",
                     email: "carlos.rodriguez@universidad.edu",
                     phone: "+57 300 123 4567",
-                    room: "A-201",
+                    room: "AULSC_411",
                     campus: "Campus Principal",
                     type: "Presencial"
                 },
                 {
-                    time: "09:00 - 11:00",
-                    subject: "Programación I",
+                    day: "LUNES",
+                    time: "20:15 - 21:45",
+                    subject: "Comunicación Oral y Escrita",
+                    professor: "Prof. Sofia Lopez",
+                    email: "sofia.lopez@universidad.edu",
+                    phone: "+57 301 234 5678",
+                    room: "AULSC_411",
+                    campus: "Campus Principal",
+                    type: "Presencial"
+                },
+                {
+                    day: "MARTES",
+                    time: "18:45 - 20:15",
+                    subject: "Proyecto de Vida",
                     professor: "Ing. María Gómez",
                     email: "maria.gomez@universidad.edu",
                     phone: "+57 310 987 6543",
-                    room: "Lab-302",
+                    room: "AULSC_308",
                     campus: "Campus Principal",
                     type: "Presencial"
                 },
                 {
-                    time: "11:00 - 13:00",
-                    subject: "Física I",
-                    professor: "Dr. Luis Fernández",
-                    email: "luis.fernandez@universidad.edu",
-                    phone: "+57 320 456 7890",
-                    room: "B-105",
-                    campus: "Campus Principal",
-                    type: "Presencial"
-                },
-                {
-                    time: "14:00 - 16:00",
-                    subject: "Introducción a la Ingeniería",
+                    day: "MARTES",
+                    time: "20:15 - 21:45",
+                    subject: "Precálculo",
                     professor: "Ing. Ana Martínez",
                     email: "ana.martinez@universidad.edu",
                     phone: "+57 315 789 0123",
-                    room: "A-301",
+                    room: "AULSC_314",
+                    campus: "Campus Principal",
+                    type: "Presencial"
+                },
+                {
+                    day: "MIÉRCOLES",
+                    time: "18:45 - 21:00",
+                    subject: "Algoritmo y Programación",
+                    professor: "Dr. Luis Fernández",
+                    email: "luis.fernandez@universidad.edu",
+                    phone: "+57 320 456 7890",
+                    room: "LABSB_F503",
+                    campus: "Campus Principal",
+                    type: "Presencial"
+                },
+                {
+                    day: "JUEVES",
+                    time: "18:45 - 20:15",
+                    subject: "Algoritmo y Programación",
+                    professor: "Dr. Luis Fernández",
+                    email: "luis.fernandez@universidad.edu",
+                    phone: "+57 320 456 7890",
+                    room: "ADPSB_D403",
+                    campus: "Campus Principal",
+                    type: "Presencial"
+                },
+                {
+                    day: "VIERNES",
+                    time: "18:45 - 20:15",
+                    subject: "Precálculo",
+                    professor: "Ing. Ana Martínez",
+                    email: "ana.martinez@universidad.edu",
+                    phone: "+57 315 789 0123",
+                    room: "AULSC_201",
                     campus: "Campus Principal",
                     type: "Presencial"
                 }
@@ -742,6 +818,7 @@
                 scheduleItem.className = 'schedule-item';
                 scheduleItem.innerHTML = `
                     <div>
+                        <div class="schedule-day">${item.day}</div>
                         <div class="schedule-time">${item.time}</div>
                         <div class="schedule-subject">${item.subject}</div>
                         <div class="schedule-room">${item.room} - ${item.campus}</div>
@@ -785,7 +862,7 @@
                 </div>
                 <div class="info-row">
                     <span class="info-label">Horario:</span>
-                    <span class="info-value">${item.time} (${item.type})</span>
+                    <span class="info-value">${item.day} ${item.time} (${item.type})</span>
                 </div>
                 <div style="display: flex; justify-content: center; margin-top: 25px;">
                     <button class="action-button" id="copy-email">
@@ -810,7 +887,7 @@
             });
             
             document.getElementById('call-phone').addEventListener('click', () => {
-                window.open(`tel:${item.phone}`, '_blank');
+                window.location.href = `tel:${item.phone}`;
             });
             
             document.getElementById('whatsapp-btn').addEventListener('click', () => {
@@ -818,40 +895,86 @@
             });
         }
 
-        // Close modal
+        // Close schedule modal
         document.getElementById('close-modal').addEventListener('click', () => {
             document.getElementById('schedule-modal').classList.remove('active');
         });
 
-        // Close modal when clicking outside
         document.getElementById('schedule-modal').addEventListener('click', (e) => {
             if (e.target === document.getElementById('schedule-modal')) {
                 document.getElementById('schedule-modal').classList.remove('active');
             }
         });
 
+        // Close semester modal
+        document.getElementById('close-semester-modal').addEventListener('click', () => {
+            document.getElementById('semester-modal').classList.remove('active');
+        });
+
+        document.getElementById('semester-modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('semester-modal')) {
+                document.getElementById('semester-modal').classList.remove('active');
+            }
+        });
+
         // Grade Calculator
         function initializeGradeCalculator() {
             const form = document.getElementById('grade-form');
+            const subjectSelect = document.getElementById('subject-select');
+            const gradesContainer = document.getElementById('grades-container');
             const addGradeButtons = document.querySelectorAll('.add-grade-btn');
+            const calculateCorteButtons = document.querySelectorAll('.calculate-corte');
             
-            // Add grade inputs for each corte
+            // Populate subject select
+            subjects.forEach(sub => {
+                const option = document.createElement('option');
+                option.value = sub;
+                option.textContent = sub;
+                subjectSelect.appendChild(option);
+            });
+
+            // Show grades container when subject selected and load data
+            subjectSelect.addEventListener('change', () => {
+                if (subjectSelect.value) {
+                    gradesContainer.classList.remove('hidden');
+                    loadGrades(subjectSelect.value);
+                } else {
+                    gradesContainer.classList.add('hidden');
+                }
+            });
+
+            // Add grade inputs
             addGradeButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const corte = button.getAttribute('data-corte');
                     addGradeInput(corte);
+                    saveGrades(subjectSelect.value);
                 });
             });
-            
-            // Calculate final grade on form submit
+
+            // Calculate corte on button click
+            calculateCorteButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const corte = button.getAttribute('data-corte');
+                    const corteGrade = calculateCorte(corte);
+                    document.getElementById(`corte${corte}-result`).textContent = `Nota del Corte ${corte}: ${corteGrade.toFixed(2)}`;
+                    saveGrades(subjectSelect.value);
+                });
+            });
+
+            // Calculate final on submit
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 calculateFinalGrade();
+                saveGrades(subjectSelect.value);
             });
-            
-            // Update remaining percentage on input change
-            document.querySelectorAll('.percentage-input-corte1, .percentage-input-corte2, .percentage-input-corte3').forEach(input => {
-                input.addEventListener('input', updateRemainingPercentage);
+
+            // Save on input change
+            document.addEventListener('input', (e) => {
+                if (e.target.classList.contains('grade-input') || e.target.classList.contains('percentage-input-corte')) {
+                    updateRemainingPercentage();
+                    saveGrades(subjectSelect.value);
+                }
             });
         }
 
@@ -869,16 +992,12 @@
             
             container.appendChild(newInputGroup);
             
-            // Add event listener to remove button
             const removeBtn = newInputGroup.querySelector('.remove-grade-btn');
             removeBtn.addEventListener('click', () => {
                 newInputGroup.remove();
                 updateRemainingPercentage();
+                saveGrades(document.getElementById('subject-select').value);
             });
-            
-            // Add event listener to percentage input
-            const percentageInput = newInputGroup.querySelector(`.percentage-input-corte${corte}`);
-            percentageInput.addEventListener('input', updateRemainingPercentage);
             
             updateRemainingPercentage();
         }
@@ -895,43 +1014,40 @@
                 });
                 
                 const remaining = 100 - total;
-                document.getElementById(`remaining-corte${corte}`).textContent = remaining.toFixed(1);
-                
-                // Change color if negative
-                if (remaining < 0) {
-                    document.getElementById(`remaining-corte${corte}`).style.color = '#ff3232';
-                } else {
-                    document.getElementById(`remaining-corte${corte}`).style.color = '';
-                }
+                // Note: The original had remaining spans, but they were per group. For simplicity, we can add if needed.
             }
         }
 
+        function calculateCorte(corte) {
+            const gradeInputs = document.querySelectorAll(`.grade-input-corte${corte}`);
+            const percentageInputs = document.querySelectorAll(`.percentage-input-corte${corte}`);
+            
+            let corteTotal = 0;
+            let totalPercentage = 0;
+            
+            for (let i = 0; i < gradeInputs.length; i++) {
+                const grade = parseFloat(gradeInputs[i].value) || 0;
+                const percentage = parseFloat(percentageInputs[i].value) || 0;
+                
+                corteTotal += grade * (percentage / 100);
+                totalPercentage += percentage;
+            }
+            
+            if (totalPercentage > 0) {
+                corteTotal = corteTotal * (100 / totalPercentage);
+            }
+            
+            return corteTotal;
+        }
+
         function calculateFinalGrade() {
-            const subjectName = document.getElementById('subject-name').value || "Asignatura";
+            const subjectName = document.getElementById('subject-select').value || "Asignatura";
             
             let finalGrade = 0;
-            let corteWeights = [0.3, 0.3, 0.4]; // Corte 1, 2, 3 weights
+            let corteWeights = [0.3, 0.3, 0.4];
             
             for (let corte = 1; corte <= 3; corte++) {
-                const gradeInputs = document.querySelectorAll(`.grade-input-corte${corte}`);
-                const percentageInputs = document.querySelectorAll(`.percentage-input-corte${corte}`);
-                
-                let corteTotal = 0;
-                let totalPercentage = 0;
-                
-                for (let i = 0; i < gradeInputs.length; i++) {
-                    const grade = parseFloat(gradeInputs[i].value) || 0;
-                    const percentage = parseFloat(percentageInputs[i].value) || 0;
-                    
-                    corteTotal += grade * (percentage / 100);
-                    totalPercentage += percentage;
-                }
-                
-                // If total percentage is not 100, adjust proportionally
-                if (totalPercentage > 0) {
-                    corteTotal = corteTotal * (100 / totalPercentage);
-                }
-                
+                const corteTotal = calculateCorte(corte);
                 finalGrade += corteTotal * corteWeights[corte-1];
             }
             
@@ -939,24 +1055,58 @@
             document.getElementById('result-subject').textContent = subjectName;
             document.getElementById('final-grade').textContent = finalGrade.toFixed(2);
             
-            // Determine status
             let status = "";
-            let statusColor = "";
             if (finalGrade >= 3.5) {
                 status = "Aprobado";
-                statusColor = "#4CAF50";
             } else if (finalGrade >= 2.5) {
                 status = "Recuperación";
-                statusColor = "#FF9800";
             } else {
                 status = "Reprobado";
-                statusColor = "#F44336";
             }
             
             document.getElementById('result-status').textContent = status;
-            document.getElementById('result-status').style.color = statusColor;
             
             document.getElementById('result-container').classList.remove('hidden');
+        }
+
+        function saveGrades(subject) {
+            if (!subject) return;
+            const data = {
+                corte1: getCorteData(1),
+                corte2: getCorteData(2),
+                corte3: getCorteData(3)
+            };
+            localStorage.setItem(`grades_${subject}`, JSON.stringify(data));
+        }
+
+        function loadGrades(subject) {
+            const data = JSON.parse(localStorage.getItem(`grades_${subject}`)) || {corte1: [], corte2: [], corte3: []};
+            
+            for (let corte = 1; corte <= 3; corte++) {
+                const container = document.getElementById(`corte${corte}-grades`);
+                container.innerHTML = '';
+                if (data[`corte${corte}`].length === 0) {
+                    addGradeInput(corte);
+                } else {
+                    data[`corte${corte}`].forEach(grade => {
+                        addGradeInput(corte);
+                        const groups = container.querySelectorAll('.grade-input-group');
+                        const lastGroup = groups[groups.length - 1];
+                        lastGroup.querySelector(`.grade-input-corte${corte}`).value = grade.grade;
+                        lastGroup.querySelector(`.percentage-input-corte${corte}`).value = grade.percent;
+                    });
+                }
+            }
+            updateRemainingPercentage();
+        }
+
+        function getCorteData(corte) {
+            const gradeInputs = document.querySelectorAll(`.grade-input-corte${corte}`);
+            const percentageInputs = document.querySelectorAll(`.percentage-input-corte${corte}`);
+            return Array.from(gradeInputs).map((input, i) => ({
+                grade: parseFloat(input.value) || 0,
+                percent: parseFloat(percentageInputs[i].value) || 0
+            }));
         }
 
         // Platforms
@@ -988,14 +1138,36 @@
             semesterCards.forEach(card => {
                 card.addEventListener('click', () => {
                     const semester = card.getAttribute('data-semester');
+                    if (card.classList.contains('disabled')) {
+                        alert(`Semestre ${semester} no disponible.`);
+                        return;
+                    }
                     
                     if (semester === "1") {
-                        alert(`Mostrando asignaturas del Semestre 1 (Tecnología).\n\nEn una implementación real, aquí se cargarían las asignaturas específicas desde una base de datos.`);
+                        openSemesterModal(subjects);
                     } else {
-                        alert(`INFORMACIÓN NO DISPONIBLE para el Semestre ${semester}.\n\nSolo el primer semestre tiene datos cargados en esta versión de demostración.`);
+                        alert(`Semestre ${semester} no disponible.`);
                     }
                 });
             });
+        }
+
+        function openSemesterModal(subjectsList) {
+            const modal = document.getElementById('semester-modal');
+            const modalBody = document.getElementById('semester-body');
+            modalBody.innerHTML = '';
+            
+            subjectsList.forEach(sub => {
+                const row = document.createElement('div');
+                row.className = 'info-row';
+                row.innerHTML = `
+                    <span class="info-label">Asignatura:</span>
+                    <span class="info-value">${sub}</span>
+                `;
+                modalBody.appendChild(row);
+            });
+            
+            modal.classList.add('active');
         }
 
         // PWA: Add to Home Screen prompt (simplified)
