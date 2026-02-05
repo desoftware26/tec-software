@@ -9,18 +9,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-primary: #0f0f23;
-            --bg-secondary: #1a1a2e;
-            --bg-card: #16213e;
-            --accent-color: #6c63ff;
-            --accent-secondary: #36d1dc;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --border-radius: 20px;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --bg-primary:    #f9fbfd;
+            --bg-secondary:  #ffffff;
+            --bg-card:       #ffffff;
+            --accent-color:  #5e60ce;
+            --accent-secondary: #4895ef;
+            --text-primary:  #0f172a;
+            --text-secondary: #475569;
+            --border-radius: 14px;
+            --shadow:        0 4px 14px rgba(0,0,0,0.06);
         }
-
         * {
             margin: 0;
             padding: 0;
@@ -73,9 +71,9 @@
             display: flex;
             justify-content: space-around;
             padding: 15px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid #e0e0e8;
             z-index: 100;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(10px);
         }
 
@@ -120,19 +118,20 @@
 
         /* Card Styles */
         .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background: var(--bg-card);
+            backdrop-filter: none;
             -webkit-backdrop-filter: blur(10px);
             border-radius: var(--border-radius);
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid #e5e7eb;
             transition: transform 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
         }
 
         .card-title {
@@ -196,13 +195,14 @@
 
         .schedule-item {
             background: var(--bg-card);
-            border-radius: var(--border-radius);
             padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
             border-left: 4px solid var(--accent-color);
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
         }
 
         .schedule-day {
@@ -321,7 +321,7 @@
         }
 
         .action-button:hover {
-            background: #5a52d5;
+            background: color-mix(in srgb, var(--accent-color) 85%, black);
         }
 
         /* Grade Calculator */
