@@ -250,16 +250,23 @@
             animation: fadeIn 0.3s ease;
         }
 
+        body.modal-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+        
         .modal-content {
             background: var(--bg-secondary);
             border-radius: var(--border-radius);
             padding: 25px;
-            width: 100%;
+            width: 90%; /* Ajuste para que no toque los bordes en móvil */
             max-width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
+            max-height: 85vh; /* Un poco más de espacio */
+            overflow-y: auto; /* Permite scroll solo dentro del modal */
             box-shadow: var(--shadow);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
         }
 
         .modal-header {
