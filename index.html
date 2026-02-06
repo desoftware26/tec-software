@@ -9,559 +9,280 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-primary:    #f9fbfd;
-            --bg-secondary:  #ffffff;
-            --bg-card:       #ffffff;
-            --accent-color:  #5e60ce;
-            --accent-secondary: #4895ef;
-            --text-primary:  #0f172a;
-            --text-secondary: #475569;
-            --border-radius: 14px;
-            --shadow:        0 4px 14px rgba(0,0,0,0.06);
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
+    --bg-primary:    #f9fbfd;
+    --bg-secondary:  #ffffff;
+    --bg-card:       #ffffff;
+    --accent-color:  #5e60ce;
+    --accent-secondary: #4895ef;
+    --text-primary:  #0f172a;
+    --text-secondary: #475569;
+    --border-radius: 14px;
+    --shadow:        0 4px 14px rgba(0,0,0,0.06);
+}
 
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            padding-bottom: 80px;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
 
-        .container {
-            max-width: 100%;
-            padding: 20px;
-            margin: 0 auto;
-        }
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    padding-bottom: 80px;
+}
 
-        /* Header */
-        .app-header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding-top: 10px;
-        }
+.container { max-width: 100%; padding: 20px; margin: 0 auto; }
 
-        .app-header h1 {
-            font-size: 1.8rem;
-            background: linear-gradient(to right, var(--accent-color), var(--accent-secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 5px;
-        }
+/* Header */
+.app-header { text-align: center; margin-bottom: 25px; padding-top: 10px; }
+.app-header h1 {
+    font-size: 1.8rem;
+    background: linear-gradient(to right, var(--accent-color), var(--accent-secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 5px;
+}
+.app-header p { color: var(--text-secondary); font-size: 0.9rem; }
 
-        .app-header p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
+/* Tab Bar */
+.tab-bar {
+    position: fixed;
+    bottom: 0; left: 0; width: 100%;
+    background-color: var(--bg-secondary);
+    display: flex; justify-content: space-around;
+    padding: 15px 0;
+    border-top: 1px solid #e0e0e8;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+}
+.tab-button {
+    background: none; border: none;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    padding: 5px 10px; border-radius: 10px;
+    transition: all 0.3s ease; cursor: pointer;
+}
+.tab-button i { font-size: 1.4rem; }
+.tab-button.active { color: var(--accent-color); transform: translateY(-5px); }
 
-        /* Tab Bar */
-        .tab-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--bg-secondary);
-            display: flex;
-            justify-content: space-around;
-            padding: 15px 0;
-            border-top: 1px solid #e0e0e8;
-            z-index: 100;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(10px);
-        }
+/* Content Sections */
+.content-section { display: none; animation: fadeIn 0.4s ease; }
+.content-section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .tab-button {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
+/* Cards */
+.card {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid #e5e7eb;
+    transition: transform 0.3s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.1); }
 
-        .tab-button i {
-            font-size: 1.4rem;
-        }
+.card-title {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--accent-color);
+    display: flex; align-items: center; gap: 10px;
+}
 
-        .tab-button.active {
-            color: var(--accent-color);
-            transform: translateY(-5px);
-        }
-
-        /* Content Sections */
-        .content-section {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Card Styles */
-        .card {
-            background: var(--bg-card);
-            backdrop-filter: none;
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid #e5e7eb;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: var(--accent-color);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .card-title i {
-            font-size: 1.2rem;
-        }
-
-        /* Semester Grid */
-        .semester-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .semester-card {
-            background: var(--bg-card);
-            border-radius: var(--border-radius);
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid #e0e0e8;
+/* Semester Grid */
+.semester-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+.semester-card {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e8;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
+}
+.semester-card.disabled { opacity: 0.5; cursor: not-allowed; }
+.semester-card:hover:not(.disabled) {
+    border-color: var(--accent-color);
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(94,96,206,0.15);
+}
+.semester-card h3 { font-size: 1.1rem; margin-bottom: 10px; color: var(--accent-color); }
 
-        .semester-card.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+/* Schedule */
+.schedule-list { display: flex; flex-direction: column; gap: 15px; }
+.schedule-item {
+    background: #ffffff;
+    padding: 15px;
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer;
+    border-left: 4px solid var(--accent-color);
+    border: 1px solid #e5e7eb;
+}
 
-        .semester-card:hover:not(.disabled) {
-            border-color: var(--accent-color);
-            transform: scale(1.03);
-            box-shadow: 0 6px 20px rgba(94, 96, 206, 0.15);
-        }
+/* Modal */
+.modal {
+    display: none;
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 1000;
+    justify-content: center; align-items: center;
+    padding: 20px;
+}
+.modal.active { display: flex; animation: fadeIn 0.3s ease; }
+.modal-content {
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow);
+}
+.modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.close-modal { background:none; border:none; color:var(--text-secondary); font-size:1.5rem; cursor:pointer; }
+.close-modal:hover { color: var(--accent-color); }
 
-        .semester-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            color: var(--accent-color);
-        }
+/* Grade Calculator */
+.grade-form { display: flex; flex-direction: column; gap: 15px; }
+.grade-input-group { display: flex; flex-direction: column; gap: 10px; }
+.grade-input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 12px 15px;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+.grade-input:focus { outline:none; border-color: var(--accent-color); }
+.add-grade-btn {
+    background: rgba(108,99,255,0.2);
+    color: var(--accent-color);
+    border: 1px dashed var(--accent-color);
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+.add-grade-btn:hover { background: rgba(108,99,255,0.3); }
+.action-button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+}
+.action-button:hover { background: color-mix(in srgb, var(--accent-color) 85%, black); }
+.result-card {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+}
+.final-grade { font-size: 2.5rem; font-weight: bold; margin: 10px 0; }
 
-        .subject-count {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
+/* Platforms */
+.platforms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+.platform-card {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #e5e7eb;
+}
+.platform-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent-color);
+    box-shadow: 0 10px 25px rgba(94,96,206,0.18);
+}
+.platform-card i { font-size: 2rem; color: var(--accent-color); }
 
-        /* Schedule */
-        .schedule-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+/* Utility */
+.hidden { display: none !important; }
+.text-center { text-align: center; }
+.mt-20 { margin-top: 20px; }
 
-        .schedule-item {
-            background: var(--bg-card);
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            border-left: 4px solid var(--accent-color);
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-        }
-
-        .schedule-day {
-            font-weight: bold;
-            color: var(--accent-secondary);
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-
-        .schedule-time {
-            font-weight: bold;
-            color: var(--accent-secondary);
-            font-size: 0.9rem;
-        }
-
-        .schedule-subject {
-            font-weight: 600;
-        }
-
-        .schedule-room {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        body.modal-open {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-        }
-        
-        .modal-content {
-            background: var(--bg-secondary);
-            border-radius: var(--border-radius);
-            padding: 25px;
-            width: 90%; /* Ajuste para que no toque los bordes en móvil */
-            max-width: 500px;
-            max-height: 85vh; /* Un poco más de espacio */
-            overflow-y: auto; /* Permite scroll solo dentro del modal */
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-title {
-            color: var(--accent-color);
-            font-size: 1.3rem;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .close-modal:hover {
-            color: var(--accent-color);
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .info-label {
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .info-value {
-            text-align: right;
-            max-width: 60%;
-        }
-
-        .action-button {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 15px;
-            margin: 5px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            transition: background 0.3s;
-        }
-
-        .action-button:hover {
-            background: color-mix(in srgb, var(--accent-color) 85%, black);
-        }
-
-        /* Grade Calculator */
-        .grade-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .grade-input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .grade-input {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 12px 15px;
-            color: var(--text-primary);
-            font-size: 1rem;
-        }
-
-        .grade-input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .percentage-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-top: 5px;
-        }
-
-        .add-grade-btn {
-            background: rgba(108, 99, 255, 0.2);
-            color: var(--accent-color);
-            border: 1px dashed var(--accent-color);
-            border-radius: 10px;
-            padding: 10px;
-            cursor: pointer;
-            margin-top: 5px;
-            transition: all 0.3s;
-        }
-
-        .add-grade-btn:hover {
-            background: rgba(108, 99, 255, 0.3);
-        }
-
-        .result-card {
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-            color: white;
-            text-align: center;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            margin-top: 20px;
-        }
-
-        .final-grade {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .corte-result {
-            margin-top: 10px;
-            font-size: 1.2rem;
-            color: var(--accent-secondary);
-        }
-
-        /* Platforms */
-        .platforms-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .platform-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid #e5e7eb;
-            transition: all 0.25s ease;
-        }
-
-        .platform-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--accent-color);
-            box-shadow: 0 10px 25px rgba(94, 96, 206, 0.18);
-        }
-
-        .platform-card i {
-            font-size: 2rem;
-            color: var(--accent-color);
-        }
-
-        .platform-name {
-            font-weight: 600;
-        }
-
-        /* Responsive */
-        @media (min-width: 768px) {
-            .container {
-                max-width: 700px;
-            }
-            
-            .semester-grid {
-                grid-template-columns: repeat(5, 1fr);
-            }
-        }
-
-        /* Utility */
-        .hidden {
-            display: none !important;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .mt-20 {
-            margin-top: 20px;
-        }
-
-        .mb-20 {
-            margin-bottom: 20px;
-        }
+@media (min-width: 768px) {
+    .container { max-width: 700px; }
+    .semester-grid { grid-template-columns: repeat(5, 1fr); }
+}
     </style>
 </head>
 <body>
+
     <div class="container">
         <!-- Header -->
         <header class="app-header">
-            <h1><i class="fas fa-graduation-cap"></i>DESARROLLO DE SOFTWARE</h1>
-            <p>INGENIERIA DE SISTEMAS</p>
+            <h1><i class="fas fa-graduation-cap"></i> DESARROLLO DE SOFTWARE</h1>
+            <p>INGENIERÍA DE SISTEMAS</p>
         </header>
 
-        <!-- Content Sections -->
+        <!-- Malla Curricular -->
         <section id="malla-section" class="content-section">
             <div class="card">
                 <h2 class="card-title"><i class="fas fa-th-large"></i> Malla Curricular</h2>
                 <p>Selecciona un semestre para ver las asignaturas</p>
                 
                 <div class="semester-grid">
-                    <!-- Only Semester 1 available -->
-                    <div class="semester-card" data-semester="1">
-                        <h3>Semestre 1</h3>
-                        <p class="subject-count"></p>
-                        <p class="subject-count">Tecnología</p>
-                    </div>
-                    <!-- Other semesters disabled -->
-                    <div class="semester-card" data-semester="2">
-                        <h3>Semestre 2</h3>
-                        <p class="subject-count"></p>
-                        <p class="subject-count">Tecnología</p>
-                    </div>
-                    <div class="semester-card" data-semester="3">
-                        <h3>Semestre 3</h3>
-                        <p class="subject-count"></p>
-                        <p class="subject-count">Tecnología</p>
-                    </div>
-                    <div class="semester-card" data-semester="4">
-                        <h3>Semestre 4</h3>
-                        <p class="subject-count"></p>
-                        <p class="subject-count">Tecnología</p>
-                    </div>
-                    <div class="semester-card" data-semester="5">
-                        <h3>Semestre 5</h3>
-                        <p class="subject-count"></p>
-                        <p class="subject-count">Tecnología</p>
-                    </div>
-                    <div class="semester-card" data-semester="6">
-                        <h3>Semestre 6</h3>
-                        <p class="subject-count"></p>
-                        <p class="subject-count">Tecnología</p>
-                    </div>
-                    <div class="semester-card" data-semester="7">
-                        <h3>Semestre 7</h3>
-                        <p class="subject-count"></p>
-                        <p class="subject-count">Ingeniería</p>
-                    </div>
-                    <div class="semester-card" data-semester="8">
-                        <h3>Semestre 8</h3>
-                        <p class="subject-count"></p>
-                        <p class="subject-count">Ingeniería</p>
-                    </div>
-                    <div class="semester-card" data-semester="9">
-                        <h3>Semestre 9</h3>
-                        <p class="subject-count"></p>
-                        <p class="subject-count">Ingeniería</p>
-                    </div>
-                    <div class="semester-card" data-semester="10">
-                        <h3>Semestre 10</h3>
-                        <p class="subject-count"></p>
-                        <p class="subject-count">Ingeniería</p>
-                    </div>
+                    <div class="semester-card" data-semester="1"><h3>Semestre 1</h3><p class="subject-count">Tecnología</p></div>
+                    <div class="semester-card" data-semester="2"><h3>Semestre 2</h3><p class="subject-count">Tecnología</p></div>
+                    <div class="semester-card" data-semester="3"><h3>Semestre 3</h3><p class="subject-count">Tecnología</p></div>
+                    <div class="semester-card" data-semester="4"><h3>Semestre 4</h3><p class="subject-count">Tecnología</p></div>
+                    <div class="semester-card" data-semester="5"><h3>Semestre 5</h3><p class="subject-count">Tecnología</p></div>
+                    <div class="semester-card" data-semester="6"><h3>Semestre 6</h3><p class="subject-count">Tecnología</p></div>
+                    <div class="semester-card disabled" data-semester="7"><h3>Semestre 7</h3><p class="subject-count">Ingeniería</p></div>
+                    <div class="semester-card disabled" data-semester="8"><h3>Semestre 8</h3><p class="subject-count">Ingeniería</p></div>
+                    <div class="semester-card disabled" data-semester="9"><h3>Semestre 9</h3><p class="subject-count">Ingeniería</p></div>
+                    <div class="semester-card disabled" data-semester="10"><h3>Semestre 10</h3><p class="subject-count">Ingeniería</p></div>
                 </div>
             </div>
         </section>
 
+        <!-- Horario -->
         <section id="horario-section" class="content-section active">
             <div class="card">
                 <h2 class="card-title"><i class="fas fa-calendar-alt"></i> Horario - 1er Semestre 2026</h2>
-                <div class="schedule-list">
-                    <!-- Schedule items will be populated by JavaScript -->
-                </div>
+                <div class="schedule-list"></div>
             </div>
         </section>
 
+        <!-- Calculadora de Notas -->
         <section id="notas-section" class="content-section">
             <div class="card">
                 <h2 class="card-title"><i class="fas fa-calculator"></i> Calculadora de Notas</h2>
                 <form class="grade-form" id="grade-form">
-                    
-                    
-                    <div id="grades-container" class="hidden">
+                    <div id="grades-container">
                         <!-- Corte 1 -->
                         <div class="card">
                             <h3>Corte 1 (30%)</h3>
-                            <div id="corte1-grades">
-                                <!-- Grades populated by JS -->
-                            </div>
+                            <div id="corte1-grades"></div>
                             <button type="button" class="add-grade-btn" data-corte="1">+ Agregar Nota</button>
                             <button type="button" class="action-button calculate-corte" data-corte="1">Calcular Corte 1</button>
                             <div id="corte1-result" class="corte-result"></div>
@@ -570,9 +291,7 @@
                         <!-- Corte 2 -->
                         <div class="card">
                             <h3>Corte 2 (30%)</h3>
-                            <div id="corte2-grades">
-                                <!-- Grades populated by JS -->
-                            </div>
+                            <div id="corte2-grades"></div>
                             <button type="button" class="add-grade-btn" data-corte="2">+ Agregar Nota</button>
                             <button type="button" class="action-button calculate-corte" data-corte="2">Calcular Corte 2</button>
                             <div id="corte2-result" class="corte-result"></div>
@@ -581,15 +300,13 @@
                         <!-- Corte 3 -->
                         <div class="card">
                             <h3>Corte 3 (40%)</h3>
-                            <div id="corte3-grades">
-                                <!-- Grades populated by JS -->
-                            </div>
+                            <div id="corte3-grades"></div>
                             <button type="button" class="add-grade-btn" data-corte="3">+ Agregar Nota</button>
                             <button type="button" class="action-button calculate-corte" data-corte="3">Calcular Corte 3</button>
                             <div id="corte3-result" class="corte-result"></div>
                         </div>
                         
-                        <button type="submit" class="action-button" style="width: 100%; margin-top: 20px;">
+                        <button type="submit" class="action-button" style="width:100%; margin-top:20px;">
                             <i class="fas fa-calculator"></i> Calcular Nota Final
                         </button>
                     </div>
@@ -598,7 +315,7 @@
                 <div id="result-container" class="hidden">
                     <div class="result-card">
                         <h3>Resultado Final</h3>
-                        <p id="result-subject">Asignatura</p>
+                        <p id="result-subject">Promedio General</p>
                         <div class="final-grade" id="final-grade">0.0</div>
                         <p id="result-status"></p>
                     </div>
@@ -606,628 +323,271 @@
             </div>
         </section>
 
+        <!-- Plataformas -->
         <section id="plataformas-section" class="content-section">
             <div class="card">
                 <h2 class="card-title"><i class="fas fa-external-link-alt"></i> Plataformas Académicas</h2>
                 <p>Accesos rápidos a las plataformas de la universidad</p>
                 
                 <div class="platforms-grid">
-                    <div class="platform-card" id="campus-btn">
-                        <i class="fas fa-university"></i>
-                        <div class="platform-name">Campus Virtual</div>
-                    </div>
-                    <div class="platform-card" id="ferrum-btn">
-                        <i class="fas fa-book"></i>
-                        <div class="platform-name">Ferrum</div>
-                    </div>
-                    <div class="platform-card" id="outlook-btn">
-                        <i class="fas fa-envelope"></i>
-                        <div class="platform-name">Outlook 365</div>
-                    </div>
-                </div>
-                
-                <div class="mt-20 text-center">
-                    <p><small></small></p>
+                    <div class="platform-card" id="campus-btn"><i class="fas fa-university"></i><div class="platform-name">Campus Virtual</div></div>
+                    <div class="platform-card" id="ferrum-btn"><i class="fas fa-book"></i><div class="platform-name">Ferrum</div></div>
+                    <div class="platform-card" id="outlook-btn"><i class="fas fa-envelope"></i><div class="platform-name">Outlook 365</div></div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- Modal for schedule details -->
+    <!-- Modal Horario -->
     <div class="modal" id="schedule-modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Detalles de la Asignatura</h3>
-                <button class="close-modal" id="close-modal">&times;</button>
+                <button class="close-modal" id="close-modal">×</button>
             </div>
-            <div id="modal-body">
-                <!-- Modal content will be populated by JavaScript -->
-            </div>
+            <div id="modal-body"></div>
         </div>
     </div>
 
-    <!-- Modal for semester subjects -->
+    <!-- Modal Semestre -->
     <div class="modal" id="semester-modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Asignaturas del Semestre</h3>
-                <button class="close-modal" id="close-semester-modal">&times;</button>
+                <button class="close-modal" id="close-semester-modal">×</button>
             </div>
-            <div id="semester-body">
-                <!-- Subjects list will be populated by JavaScript -->
-            </div>
+            <div id="semester-body"></div>
         </div>
     </div>
 
     <!-- Tab Bar -->
     <nav class="tab-bar">
-        <button class="tab-button" data-tab="malla-section">
-            <i class="fas fa-th-large"></i>
-            <span>Malla</span>
-        </button>
-        <button class="tab-button active" data-tab="horario-section">
-            <i class="fas fa-calendar-alt"></i>
-            <span>Horario</span>
-        </button>
-        <button class="tab-button" data-tab="notas-section">
-            <i class="fas fa-calculator"></i>
-            <span>Notas</span>
-        </button>
-        <button class="tab-button" data-tab="plataformas-section">
-            <i class="fas fa-external-link-alt"></i>
-            <span>Plataformas</span>
-        </button>
+        <button class="tab-button" data-tab="malla-section"><i class="fas fa-th-large"></i><span>Malla</span></button>
+        <button class="tab-button active" data-tab="horario-section"><i class="fas fa-calendar-alt"></i><span>Horario</span></button>
+        <button class="tab-button" data-tab="notas-section"><i class="fas fa-calculator"></i><span>Notas</span></button>
+        <button class="tab-button" data-tab="plataformas-section"><i class="fas fa-external-link-alt"></i><span>Plataformas</span></button>
     </nav>
 
+
+
     <script>
-        // PWA Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registrado con éxito:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.log('Error al registrar ServiceWorker:', error);
-                    });
-            });
-        }
+        // PWA Registration (opcional)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(console.error);
+    });
+}
 
-        // Tab Navigation
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabButtons = document.querySelectorAll('.tab-button');
-            const contentSections = document.querySelectorAll('.content-section');
-            
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetTab = button.getAttribute('data-tab');
-                    
-                    // Update active tab button
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    
-                    // Show target section
-                    contentSections.forEach(section => section.classList.remove('active'));
-                    document.getElementById(targetTab).classList.add('active');
-                });
-            });
+// =============================================
+// Tab Navigation
+// =============================================
+document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const sections = document.querySelectorAll('.content-section');
 
-            // Initialize schedule data
-            initializeSchedule();
-            
-            // Initialize grade calculator
-            initializeGradeCalculator();
-            
-            // Initialize platforms
-            initializePlatforms();
-            
-            // Initialize semester cards
-            initializeSemesterCards();
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            sections.forEach(s => s.classList.remove('active'));
+            document.getElementById(btn.dataset.tab).classList.add('active');
         });
+    });
 
-        // Subjects from Excel malla curricular for semester 1
-        const mallaCurricular = {
-            "1": ["Algoritmo y Programación", "Precálculo", "Comunicación Oral y Escrita", "Proyecto de Vida", "Ambiente y Desarrollo"],
-            "2": ["Programación I", "Cultura y Deporte", "Álgebra Lineal", "Cálculo Diferencial", "Física Mecánica y Laboratorio", "Electiva Libre Sociohumanística I"],
-            "3": ["Programación II", "Estadística", "Cálculo Integral", "Física Eléctrica y Laboratorio", "Seminario Investigativo", "Inglés I"],
-            "4": ["Cálculo de Varias Variables", "Estructuras de Datos Aplicada", "Desarrollo de Software I", "Base de Datos I", "Electiva Libre Sociohumanística II", "Inglés II"],
-            "5": ["Ecuaciones Diferenciales", "Bases de Datos II", "Desarrollo de Software II", "Visualización de Datos I", "Redes de Computadoras", "Electiva I", "Inglés III"],
-            "6": ["Matemáticas Discretas", "Minería de Datos I", "Ingeniería de Software", "Competencias Ciudadanas", "Innovación y Emprendimiento", "Electiva II", "Inglés IV"]
-        };
+    initializeSchedule();
+    initializeGradeCalculator();
+    initializePlatforms();
+    initializeSemesterCards();
+});
 
-        // Schedule Data from Excel horario (with invented professor details since not in Excel)
-        function initializeSchedule() {
-            const scheduleData = [
-                {
-                    day: "LUNES",
-                    time: "18:45 - 20:15",
-                    subject: "Ambiente y Desarrollo",
-                    professor: "Dr. Carlos Rodríguez",
-                    email: "carlos.rodriguez@universidad.edu",
-                    phone: "+57 300 123 4567",
-                    room: "AULSC_411",
-                    campus: "ZARAGOCILLA",
-                    type: "Presencial"
-                },
-                {
-                    day: "LUNES",
-                    time: "20:15 - 21:45",
-                    subject: "Comunicación Oral y Escrita",
-                    professor: "Prof. Sofia Lopez",
-                    email: "sofia.lopez@universidad.edu",
-                    phone: "+57 301 234 5678",
-                    room: "AULSC_411",
-                    campus: "ZARAGOCILLA",
-                    type: "Presencial"
-                },
-                {
-                    day: "MARTES",
-                    time: "18:45 - 20:15",
-                    subject: "Proyecto de Vida",
-                    professor: "Ing. María Gómez",
-                    email: "maria.gomez@universidad.edu",
-                    phone: "+57 310 987 6543",
-                    room: "AULSC_308",
-                    campus: "ZARAGOCILLA",
-                    type: "Presencial"
-                },
-                {
-                    day: "MARTES",
-                    time: "20:15 - 21:45",
-                    subject: "Precálculo",
-                    professor: "Ing. Ana Martínez",
-                    email: "ana.martinez@universidad.edu",
-                    phone: "+57 315 789 0123",
-                    room: "AULSC_314",
-                    campus: "ZARAGOCILLA",
-                    type: "Presencial"
-                },
-                {
-                    day: "MIÉRCOLES",
-                    time: "18:45 - 21:00",
-                    subject: "Algoritmo y Programación",
-                    professor: "Dr. Luis Fernández",
-                    email: "luis.fernandez@universidad.edu",
-                    phone: "+57 320 456 7890",
-                    room: "LABSB_F503",
-                    campus: "CEDESARROLLO",
-                    type: "Presencial"
-                },
-                {
-                    day: "JUEVES",
-                    time: "18:45 - 20:15",
-                    subject: "Algoritmo y Programación",
-                    professor: "Dr. Luis Fernández",
-                    email: "luis.fernandez@universidad.edu",
-                    phone: "+57 320 456 7890",
-                    room: "ADPSB_D403",
-                    campus: "CEDESARROLLO",
-                    type: "Presencial"
-                },
-                {
-                    day: "VIERNES",
-                    time: "18:45 - 20:15",
-                    subject: "Precálculo",
-                    professor: "Ing. Ana Martínez",
-                    email: "ana.martinez@universidad.edu",
-                    phone: "+57 315 789 0123",
-                    room: "AULSC_201",
-                    campus: "ZARAGOCILLA",
-                    type: "Presencial"
-                }
-            ];
+// =============================================
+// Malla Curricular - Datos
+// =============================================
+const mallaCurricular = {
+    "1": ["Algoritmo y Programación", "Precálculo", "Comunicación Oral y Escrita", "Proyecto de Vida", "Ambiente y Desarrollo"],
+    "2": ["Programación I", "Cultura y Deporte", "Álgebra Lineal", "Cálculo Diferencial", "Física Mecánica y Laboratorio", "Electiva Libre Sociohumanística I"],
+    "3": ["Programación II", "Estadística", "Cálculo Integral", "Física Eléctrica y Laboratorio", "Seminario Investigativo", "Inglés I"],
+    "4": ["Cálculo de Varias Variables", "Estructuras de Datos Aplicada", "Desarrollo de Software I", "Base de Datos I", "Electiva Libre Sociohumanística II", "Inglés II"],
+    "5": ["Ecuaciones Diferenciales", "Bases de Datos II", "Desarrollo de Software II", "Visualización de Datos I", "Redes de Computadoras", "Electiva I", "Inglés III"],
+    "6": ["Matemáticas Discretas", "Minería de Datos I", "Ingeniería de Software", "Competencias Ciudadanas", "Innovación y Emprendimiento", "Electiva II", "Inglés IV"]
+};
 
-            const scheduleList = document.querySelector('.schedule-list');
-            
-            scheduleData.forEach(item => {
-                const scheduleItem = document.createElement('div');
-                scheduleItem.className = 'schedule-item';
-                scheduleItem.innerHTML = `
-                    <div>
-                        <div class="schedule-day">${item.day}</div>
-                        <div class="schedule-time">${item.time}</div>
-                        <div class="schedule-subject">${item.subject}</div>
-                        <div class="schedule-room">${item.room} - ${item.campus}</div>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
-                `;
-                
-                scheduleItem.addEventListener('click', () => openScheduleModal(item));
-                scheduleList.appendChild(scheduleItem);
-            });
-        }
+// =============================================
+// Horario
+// =============================================
+function initializeSchedule() {
+    const scheduleData = [
+        { day: "LUNES",    time: "18:45 - 20:15", subject: "Ambiente y Desarrollo",        professor: "Dr. Carlos Rodríguez",   email: "carlos.rodriguez@uni.edu", phone: "+573001234567", room: "AULSC_411", campus: "ZARAGOCILLA" },
+        { day: "LUNES",    time: "20:15 - 21:45", subject: "Comunicación Oral y Escrita",  professor: "Prof. Sofia Lopez",      email: "sofia.lopez@uni.edu",      phone: "+573012345678", room: "AULSC_411", campus: "ZARAGOCILLA" },
+        { day: "MARTES",   time: "18:45 - 20:15", subject: "Proyecto de Vida",             professor: "Ing. María Gómez",       email: "maria.gomez@uni.edu",      phone: "+573109876543", room: "AULSC_308", campus: "ZARAGOCILLA" },
+        { day: "MARTES",   time: "20:15 - 21:45", subject: "Precálculo",                   professor: "Ing. Ana Martínez",      email: "ana.martinez@uni.edu",     phone: "+573157890123", room: "AULSC_314", campus: "ZARAGOCILLA" },
+        { day: "MIÉRCOLES",time: "18:45 - 21:00", subject: "Algoritmo y Programación",     professor: "Dr. Luis Fernández",     email: "luis.fernandez@uni.edu",   phone: "+573204567890", room: "LABSB_F503",campus: "CEDESARROLLO" },
+        // ... puedes agregar los demás
+    ];
 
-        function openScheduleModal(item) {
-            const modal = document.getElementById('schedule-modal');
-            const modalBody = document.getElementById('modal-body');
-            
-            modalBody.innerHTML = `
-                <div class="info-row">
-                    <span class="info-label">Asignatura:</span>
-                    <span class="info-value">${item.subject}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Profesor(a):</span>
-                    <span class="info-value">${item.professor}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Correo:</span>
-                    <span class="info-value">${item.email}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Teléfono:</span>
-                    <span class="info-value">${item.phone}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Salón:</span>
-                    <span class="info-value">${item.room}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Sede:</span>
-                    <span class="info-value">${item.campus}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Horario:</span>
-                    <span class="info-value">${item.day} ${item.time} (${item.type})</span>
-                </div>
-                <div style="display: flex; justify-content: center; margin-top: 25px;">
-                    <button class="action-button" id="copy-email">
-                        <i class="far fa-copy"></i> Copiar Correo
-                    </button>
-                    <button class="action-button" id="call-phone">
-                        <i class="fas fa-phone"></i> Llamar
-                    </button>
-                    <button class="action-button" id="whatsapp-btn">
-                        <i class="fab fa-whatsapp"></i> WhatsApp
-                    </button>
-                </div>
-            `;
-            
-            modal.classList.add('active');
-            
-            // Add event listeners for modal buttons
-            document.getElementById('copy-email').addEventListener('click', () => {
-                navigator.clipboard.writeText(item.email).then(() => {
-                    alert('Correo copiado al portapapeles');
-                });
-            });
-            
-            document.getElementById('call-phone').addEventListener('click', () => {
-                window.location.href = `tel:${item.phone}`;
-            });
-            
-            document.getElementById('whatsapp-btn').addEventListener('click', () => {
-                window.open(`https://wa.me/${item.phone.replace(/\D/g, '')}`, '_blank');
-            });
-        }
+    const list = document.querySelector('.schedule-list');
+    list.innerHTML = '';
 
-        // Close schedule modal
-        document.getElementById('close-modal').addEventListener('click', () => {
-            document.getElementById('schedule-modal').classList.remove('active');
+    scheduleData.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'schedule-item';
+        div.innerHTML = `
+            <div>
+                <div class="schedule-day">${item.day}</div>
+                <div class="schedule-time">${item.time}</div>
+                <div class="schedule-subject">${item.subject}</div>
+                <div class="schedule-room">${item.room} - ${item.campus}</div>
+            </div>
+            <i class="fas fa-chevron-right"></i>
+        `;
+        div.addEventListener('click', () => openScheduleModal(item));
+        list.appendChild(div);
+    });
+}
+
+function openScheduleModal(item) {
+    const modal = document.getElementById('schedule-modal');
+    document.getElementById('modal-body').innerHTML = `
+        <div class="info-row"><span class="info-label">Asignatura:</span><span class="info-value">${item.subject}</span></div>
+        <div class="info-row"><span class="info-label">Profesor:</span><span class="info-value">${item.professor}</span></div>
+        <div class="info-row"><span class="info-label">Correo:</span><span class="info-value">${item.email}</span></div>
+        <div class="info-row"><span class="info-label">Teléfono:</span><span class="info-value">${item.phone}</span></div>
+        <div class="info-row"><span class="info-label">Salón:</span><span class="info-value">${item.room}</span></div>
+        <div class="info-row"><span class="info-label">Sede:</span><span class="info-value">${item.campus}</span></div>
+        <div style="display:flex; justify-content:center; margin-top:25px; gap:10px;">
+            <button class="action-button" onclick="navigator.clipboard.writeText('${item.email}').then(()=>alert('Correo copiado'))"><i class="far fa-copy"></i> Copiar correo</button>
+            <a class="action-button" href="tel:${item.phone}"><i class="fas fa-phone"></i> Llamar</a>
+            <a class="action-button" href="https://wa.me/${item.phone.replace(/\D/g,'')}" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+    `;
+    modal.classList.add('active');
+}
+
+// Cerrar modales
+document.getElementById('close-modal')?.addEventListener('click', () => document.getElementById('schedule-modal').classList.remove('active'));
+document.getElementById('schedule-modal')?.addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('active'); });
+
+document.getElementById('close-semester-modal')?.addEventListener('click', () => document.getElementById('semester-modal').classList.remove('active'));
+document.getElementById('semester-modal')?.addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('active'); });
+
+// =============================================
+// Calculadora de Notas (general, sin asignatura)
+// =============================================
+function initializeGradeCalculator() {
+    document.getElementById('grades-container').classList.remove('hidden');
+
+    document.querySelectorAll('.add-grade-btn').forEach(btn => {
+        btn.addEventListener('click', () => addGradeInput(btn.dataset.corte));
+    });
+
+    document.querySelectorAll('.calculate-corte').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const corte = btn.dataset.corte;
+            const nota = calculateCorte(corte);
+            document.getElementById(`corte${corte}-result`).textContent = `Nota Corte ${corte}: ${nota.toFixed(2)}`;
         });
+    });
 
-        document.getElementById('schedule-modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('schedule-modal')) {
-                document.getElementById('schedule-modal').classList.remove('active');
-            }
-        });
+    document.getElementById('grade-form').addEventListener('submit', e => {
+        e.preventDefault();
+        let final = 0;
+        final += calculateCorte(1) * 0.30;
+        final += calculateCorte(2) * 0.30;
+        final += calculateCorte(3) * 0.40;
 
-        // Close semester modal
-        document.getElementById('close-semester-modal').addEventListener('click', () => {
-            document.getElementById('semester-modal').classList.remove('active');
-        });
+        document.getElementById('final-grade').textContent = final.toFixed(2);
+        document.getElementById('result-status').textContent = 
+            final >= 3.5 ? "Aprobado" : 
+            final >= 3.0 ? "Habilitación" : "Reprobado";
 
-        document.getElementById('semester-modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('semester-modal')) {
-                document.getElementById('semester-modal').classList.remove('active');
-            }
-        });
+        document.getElementById('result-container').classList.remove('hidden');
+    });
+}
 
-        // Grade Calculator
-        function initializeGradeCalculator() {
-            const form = document.getElementById('grade-form');
-            const subjectSelect = document.getElementById('subject-select');
-            const gradesContainer = document.getElementById('grades-container');
-            const addGradeButtons = document.querySelectorAll('.add-grade-btn');
-            const calculateCorteButtons = document.querySelectorAll('.calculate-corte');
-            
-            // Populate subject select
-            subjects.forEach(sub => {
-                const option = document.createElement('option');
-                option.value = sub;
-                option.textContent = sub;
-                subjectSelect.appendChild(option);
-            });
+function addGradeInput(corte) {
+    const container = document.getElementById(`corte${corte}-grades`);
+    const group = document.createElement('div');
+    group.className = 'grade-input-group';
+    group.innerHTML = `
+        <input type="number" class="grade-input grade-input-corte${corte}" placeholder="Nota (0-5)" min="0" max="5" step="0.1">
+        <input type="number" class="grade-input percentage-input-corte${corte}" placeholder="% (ej: 40)" min="0" max="100" step="1">
+        <button type="button" class="add-grade-btn remove-grade-btn" style="background:rgba(255,50,50,0.2); color:#ff3232; border:1px dashed #ff3232;">
+            <i class="fas fa-trash"></i> Eliminar
+        </button>
+    `;
+    container.appendChild(group);
 
-            // Show grades container when subject selected and load data
-            subjectSelect.addEventListener('change', () => {
-                if (subjectSelect.value) {
-                    gradesContainer.classList.remove('hidden');
-                    loadGrades(subjectSelect.value);
-                } else {
-                    gradesContainer.classList.add('hidden');
-                }
-            });
+    group.querySelector('.remove-grade-btn').addEventListener('click', () => {
+        group.remove();
+    });
+}
 
-            // Add grade inputs
-            addGradeButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const corte = button.getAttribute('data-corte');
-                    addGradeInput(corte);
-                    saveGrades(subjectSelect.value);
-                });
-            });
+function calculateCorte(corte) {
+    const grades = document.querySelectorAll(`.grade-input-corte${corte}`);
+    const percents = document.querySelectorAll(`.percentage-input-corte${corte}`);
 
-            // Calculate corte on button click
-            calculateCorteButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const corte = button.getAttribute('data-corte');
-                    const corteGrade = calculateCorte(corte);
-                    document.getElementById(`corte${corte}-result`).textContent = `Nota del Corte ${corte}: ${corteGrade.toFixed(2)}`;
-                    saveGrades(subjectSelect.value);
-                });
-            });
+    let total = 0;
+    let totalPercent = 0;
 
-            // Calculate final on submit
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                calculateFinalGrade();
-                saveGrades(subjectSelect.value);
-            });
+    for (let i = 0; i < grades.length; i++) {
+        const grade = parseFloat(grades[i].value) || 0;
+        const percent = parseFloat(percents[i].value) || 0;
+        total += grade * (percent / 100);
+        totalPercent += percent;
+    }
 
-            // Save on input change
-            document.addEventListener('input', (e) => {
-                if (e.target.classList.contains('grade-input') || e.target.classList.contains('percentage-input-corte')) {
-                    updateRemainingPercentage();
-                    saveGrades(subjectSelect.value);
-                }
-            });
-        }
+    if (totalPercent > 0) {
+        return total * (100 / totalPercent);
+    }
+    return 0;
+}
 
-        function addGradeInput(corte) {
-            const container = document.getElementById(`corte${corte}-grades`);
-            const newInputGroup = document.createElement('div');
-            newInputGroup.className = 'grade-input-group';
-            newInputGroup.innerHTML = `
-                <input type="number" class="grade-input grade-input-corte${corte}" placeholder="Nota (0-5)" min="0" max="5" step="0.1">
-                <input type="number" class="grade-input percentage-input-corte${corte}" placeholder="Porcentaje (%)" min="0" max="100">
-                <button type="button" class="add-grade-btn remove-grade-btn" style="background: rgba(255, 50, 50, 0.2); color: #ff3232; border: 1px dashed #ff3232;">
-                    <i class="fas fa-trash"></i> Eliminar
-                </button>
-            `;
-            
-            container.appendChild(newInputGroup);
-            
-            const removeBtn = newInputGroup.querySelector('.remove-grade-btn');
-            removeBtn.addEventListener('click', () => {
-                newInputGroup.remove();
-                updateRemainingPercentage();
-                saveGrades(document.getElementById('subject-select').value);
-            });
-            
-            updateRemainingPercentage();
-        }
+// =============================================
+// Plataformas
+// =============================================
+function initializePlatforms() {
+    const links = {
+        campus:   "https://campusvirtual.tuuniversidad.edu.co",
+        ferrum:   "https://ferrum.tuuniversidad.edu.co",
+        outlook:  "https://outlook.office.com"
+    };
 
-        function updateRemainingPercentage() {
-            for (let corte = 1; corte <= 3; corte++) {
-                const inputs = document.querySelectorAll(`.percentage-input-corte${corte}`);
-                let total = 0;
-                
-                inputs.forEach(input => {
-                    if (input.value) {
-                        total += parseFloat(input.value) || 0;
-                    }
-                });
-                
-                const remaining = 100 - total;
-                // Note: The original had remaining spans, but they were per group. For simplicity, we can add if needed.
-            }
-        }
+    document.getElementById('campus-btn')?.addEventListener('click', () => window.open(links.campus, '_blank'));
+    document.getElementById('ferrum-btn')?.addEventListener('click', () => window.open(links.ferrum, '_blank'));
+    document.getElementById('outlook-btn')?.addEventListener('click', () => window.open(links.outlook, '_blank'));
+}
 
-        function calculateCorte(corte) {
-            const gradeInputs = document.querySelectorAll(`.grade-input-corte${corte}`);
-            const percentageInputs = document.querySelectorAll(`.percentage-input-corte${corte}`);
-            
-            let corteTotal = 0;
-            let totalPercentage = 0;
-            
-            for (let i = 0; i < gradeInputs.length; i++) {
-                const grade = parseFloat(gradeInputs[i].value) || 0;
-                const percentage = parseFloat(percentageInputs[i].value) || 0;
-                
-                corteTotal += grade * (percentage / 100);
-                totalPercentage += percentage;
-            }
-            
-            if (totalPercentage > 0) {
-                corteTotal = corteTotal * (100 / totalPercentage);
-            }
-            
-            return corteTotal;
-        }
-
-        function calculateFinalGrade() {
-            const subjectName = document.getElementById('subject-select').value || "Asignatura";
-            
-            let finalGrade = 0;
-            let corteWeights = [0.3, 0.3, 0.4];
-            
-            for (let corte = 1; corte <= 3; corte++) {
-                const corteTotal = calculateCorte(corte);
-                finalGrade += corteTotal * corteWeights[corte-1];
-            }
-            
-            // Display result
-            document.getElementById('result-subject').textContent = subjectName;
-            document.getElementById('final-grade').textContent = finalGrade.toFixed(2);
-            
-            let status = "";
-            if (finalGrade >= 3.5) {
-                status = "Aprobado";
-            } else if (finalGrade >= 2.5) {
-                status = "Recuperación";
-            } else {
-                status = "Reprobado";
-            }
-            
-            document.getElementById('result-status').textContent = status;
-            
-            document.getElementById('result-container').classList.remove('hidden');
-        }
-
-        function saveGrades(subject) {
-            if (!subject) return;
-            const data = {
-                corte1: getCorteData(1),
-                corte2: getCorteData(2),
-                corte3: getCorteData(3)
-            };
-            localStorage.setItem(`grades_${subject}`, JSON.stringify(data));
-        }
-
-        function loadGrades(subject) {
-            const data = JSON.parse(localStorage.getItem(`grades_${subject}`)) || {corte1: [], corte2: [], corte3: []};
-            
-            for (let corte = 1; corte <= 3; corte++) {
-                const container = document.getElementById(`corte${corte}-grades`);
-                container.innerHTML = '';
-                if (data[`corte${corte}`].length === 0) {
-                    addGradeInput(corte);
-                } else {
-                    data[`corte${corte}`].forEach(grade => {
-                        addGradeInput(corte);
-                        const groups = container.querySelectorAll('.grade-input-group');
-                        const lastGroup = groups[groups.length - 1];
-                        lastGroup.querySelector(`.grade-input-corte${corte}`).value = grade.grade;
-                        lastGroup.querySelector(`.percentage-input-corte${corte}`).value = grade.percent;
-                    });
-                }
-            }
-            updateRemainingPercentage();
-        }
-
-        function getCorteData(corte) {
-            const gradeInputs = document.querySelectorAll(`.grade-input-corte${corte}`);
-            const percentageInputs = document.querySelectorAll(`.percentage-input-corte${corte}`);
-            return Array.from(gradeInputs).map((input, i) => ({
-                grade: parseFloat(input.value) || 0,
-                percent: parseFloat(percentageInputs[i].value) || 0
-            }));
-        }
-
-        // Platforms
-        function initializePlatforms() {
-            const platformLinks = {
-                campus:   "https://campusvirtual.universidad.edu.co/login",   // ← cámbialo
-                ferrum:   "https://ferrum.universidad.edu.co",                 // ← cámbialo
-                outlook:  "https://outlook.office.com/mail/"                   // este suele ser correcto
-            };
-            
-            document.getElementById('campus-btn').addEventListener('click', () => {
-                window.open(platformLinks.campus, '_blank');
-            });
-            
-            document.getElementById('ferrum-btn').addEventListener('click', () => {
-                window.open(platformLinks.ferrum, '_blank');
-            });
-            
-            document.getElementById('outlook-btn').addEventListener('click', () => {
-                window.open(platformLinks.outlook, '_blank');
-            });
-        }
-
-        // Semester Cards
+// =============================================
+// Semestres (Malla)
+// =============================================
 function initializeSemesterCards() {
-    const semesterCards = document.querySelectorAll('.semester-card');
-    
-    semesterCards.forEach(card => {
-        const semester = card.getAttribute('data-semester');
-        
-        // Habilitar visualmente los semestres del 1 al 6
-        if (parseInt(semester) <= 6) {
+    document.querySelectorAll('.semester-card').forEach(card => {
+        const sem = card.dataset.semester;
+        if (parseInt(sem) <= 6) {
             card.classList.remove('disabled');
         }
 
         card.addEventListener('click', () => {
-            if (mallaCurricular[semester]) {
-                openSemesterModal(mallaCurricular[semester]);
+            if (mallaCurricular[sem]) {
+                const modal = document.getElementById('semester-modal');
+                const body = document.getElementById('semester-body');
+                body.innerHTML = '';
+
+                mallaCurricular[sem].forEach(asig => {
+                    const row = document.createElement('div');
+                    row.className = 'info-row';
+                    row.innerHTML = `<span class="info-label">Asignatura:</span><span class="info-value">${asig}</span>`;
+                    body.appendChild(row);
+                });
+
+                modal.classList.add('active');
             } else {
-                alert(`El detalle del Semestre ${semester} no está disponible.`);
+                alert(`Semestre ${sem} no disponible todavía`);
             }
         });
     });
 }
-
-
-
-
-
-        document.getElementById('close-semester-modal').addEventListener('click', () => {
-    document.getElementById('semester-modal').classList.remove('active');
-});
-
-// También es recomendable agregar este para que se cierre al hacer clic fuera de la ventana blanca:
-document.getElementById('semester-modal').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('semester-modal')) {
-        document.getElementById('semester-modal').classList.remove('active');
-    }
-});
-
-
-
-        
-
-        function openSemesterModal(subjectsList) {
-            const modal = document.getElementById('semester-modal');
-            const modalBody = document.getElementById('semester-body');
-            modalBody.innerHTML = '';
-            
-            subjectsList.forEach(sub => {
-                const row = document.createElement('div');
-                row.className = 'info-row';
-                row.innerHTML = `
-                    <span class="info-label">Asignatura:</span>
-                    <span class="info-value">${sub}</span>
-                `;
-                modalBody.appendChild(row);
-            });
-            
-            modal.classList.add('active');
-        }
-
-        // PWA: Add to Home Screen prompt (simplified)
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent the mini-infobar from appearing on mobile
-            e.preventDefault();
-            // You can show your own custom install button here if needed
-            console.log('PWA installation available');
-        });
-    </script>
-    
-    <!-- Service Worker and Manifest would be separate files in a real implementation -->
-    <script>
-        // Inline manifest for demo purposes
-        const manifest = {
-            "name": "App Universitaria",
-            "short_name": "UniApp",
-            "description": "Aplicación académica para gestión universitaria",
-            "start_url": "/",
-            "display": "standalone",
-            "background_color": "#0f0f23",
-            "theme_color": "#6c63ff",
-            "icons": [
-                {
-                    "src": "icon-192.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
-                },
-                {
-                    "src": "icon-512.png",
-                    "sizes": "512x512",
-                    "type": "image/png"
-                }
-            ]
-        };
     </script>
 </body>
 </html>
