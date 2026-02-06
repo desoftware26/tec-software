@@ -491,47 +491,47 @@
                         <p class="subject-count">Tecnología</p>
                     </div>
                     <!-- Other semesters disabled -->
-                    <div class="semester-card disabled" data-semester="2">
+                    <div class="semester-card" data-semester="2">
                         <h3>Semestre 2</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Tecnología</p>
                     </div>
-                    <div class="semester-card disabled" data-semester="3">
+                    <div class="semester-card" data-semester="3">
                         <h3>Semestre 3</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Tecnología</p>
                     </div>
-                    <div class="semester-card disabled" data-semester="4">
+                    <div class="semester-card" data-semester="4">
                         <h3>Semestre 4</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Tecnología</p>
                     </div>
-                    <div class="semester-card disabled" data-semester="5">
+                    <div class="semester-card" data-semester="5">
                         <h3>Semestre 5</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Tecnología</p>
                     </div>
-                    <div class="semester-card disabled" data-semester="6">
+                    <div class="semester-card" data-semester="6">
                         <h3>Semestre 6</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Tecnología</p>
                     </div>
-                    <div class="semester-card disabled" data-semester="7">
+                    <div class="semester-card" data-semester="7">
                         <h3>Semestre 7</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Ingeniería</p>
                     </div>
-                    <div class="semester-card disabled" data-semester="8">
+                    <div class="semester-card" data-semester="8">
                         <h3>Semestre 8</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Ingeniería</p>
                     </div>
-                    <div class="semester-card disabled" data-semester="9">
+                    <div class="semester-card" data-semester="9">
                         <h3>Semestre 9</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Ingeniería</p>
                     </div>
-                    <div class="semester-card disabled" data-semester="10">
+                    <div class="semester-card" data-semester="10">
                         <h3>Semestre 10</h3>
                         <p class="subject-count">6 asignaturas</p>
                         <p class="subject-count">Ingeniería</p>
@@ -732,13 +732,14 @@
         });
 
         // Subjects from Excel malla curricular for semester 1
-        const subjects = [
-            "Algoritmo y Programación",
-            "Precálculo",
-            "Comunicación Oral y Escrita",
-            "Proyecto de Vida",
-            "Ambiente y Desarrollo"
-        ];
+        const mallaCurricular = {
+            "1": ["Algoritmo y Programación", "Precálculo", "Comunicación Oral y Escrita", "Proyecto de Vida", "Ambiente y Desarrollo"],
+            "2": ["Programación I", "Cultura y Deporte", "Álgebra Lineal", "Cálculo Diferencial", "Física Mecánica y Laboratorio", "Electiva Libre Sociohumanística I"],
+            "3": ["Programación II", "Estadística", "Cálculo Integral", "Física Eléctrica y Laboratorio", "Seminario Investigativo", "Inglés I"],
+            "4": ["Cálculo de Varias Variables", "Estructuras de Datos Aplicada", "Desarrollo de Software I", "Base de Datos I", "Electiva Libre Sociohumanística II", "Inglés II"],
+            "5": ["Ecuaciones Diferenciales", "Bases de Datos II", "Desarrollo de Software II", "Visualización de Datos I", "Redes de Computadoras", "Electiva I", "Inglés III"],
+            "6": ["Matemáticas Discretas", "Minería de Datos I", "Ingeniería de Software", "Competencias Ciudadanas", "Innovación y Emprendimiento", "Electiva II", "Inglés IV"]
+        };
 
         // Schedule Data from Excel horario (with invented professor details since not in Excel)
         function initializeSchedule() {
@@ -1147,17 +1148,19 @@
             const semesterCards = document.querySelectorAll('.semester-card');
             
             semesterCards.forEach(card => {
+                // Quitamos el bloqueo para semestres del 1 al 6
+                const semester = card.getAttribute('data-semester');
+                if (parseInt(semester) <= 6) {
+                    card.classList.remove('disabled');
+                }
+        
                 card.addEventListener('click', () => {
                     const semester = card.getAttribute('data-semester');
-                    if (card.classList.contains('disabled')) {
-                        alert(`Semestre ${semester} no disponible.`);
-                        return;
-                    }
                     
-                    if (semester === "1") {
-                        openSemesterModal(subjects);
+                    if (mallaCurricular[semester]) {
+                        openSemesterModal(mallaCurricular[semester]);
                     } else {
-                        alert(`Semestre ${semester} no disponible.`);
+                        alert(`Semestre ${semester} no disponible todavía.`);
                     }
                 });
             });
