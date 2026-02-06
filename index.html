@@ -449,12 +449,12 @@ function initializeSchedule() {
 function openScheduleModal(item) {
     const modal = document.getElementById('schedule-modal');
     document.getElementById('modal-body').innerHTML = `
-        <div class="info-row"><span class="info-label">Asignatura:</span><span class="info-value">${item.subject}</span></div>
-        <div class="info-row"><span class="info-label">Profesor:</span><span class="info-value">${item.professor}</span></div>
-        <div class="info-row"><span class="info-label">Correo:</span><span class="info-value">${item.email}</span></div>
-        <div class="info-row"><span class="info-label">Teléfono:</span><span class="info-value">${item.phone}</span></div>
-        <div class="info-row"><span class="info-label">Salón:</span><span class="info-value">${item.room}</span></div>
-        <div class="info-row"><span class="info-label">Sede:</span><span class="info-value">${item.campus}</span></div>
+        <div class="info-row"><span class="info-label">Asignatura: </span><span class="info-value">${item.subject}</span></div>
+        <div class="info-row"><span class="info-label">Profesor: </span><span class="info-value">${item.professor}</span></div>
+        <div class="info-row"><span class="info-label">Correo: </span><span class="info-value">${item.email}</span></div>
+        <div class="info-row"><span class="info-label">Teléfono: </span><span class="info-value">${item.phone}</span></div>
+        <div class="info-row"><span class="info-label">Salón: </span><span class="info-value">${item.room}</span></div>
+        <div class="info-row"><span class="info-label">Sede: </span><span class="info-value">${item.campus}</span></div>
         <div style="display:flex; justify-content:center; margin-top:25px; gap:10px;">
             <button class="action-button" onclick="navigator.clipboard.writeText('${item.email}').then(()=>alert('Correo copiado'))"><i class="far fa-copy"></i> Copiar correo</button>
             <a class="action-button" href="tel:${item.phone}"><i class="fas fa-phone"></i> Llamar</a>
@@ -577,7 +577,7 @@ function initializeSemesterCards() {
                 mallaCurricular[sem].forEach(asig => {
                     const row = document.createElement('div');
                     row.className = 'info-row';
-                    row.innerHTML = `<span class="info-label">Asignatura:</span><span class="info-value">${asig}</span>`;
+                    row.innerHTML = `<span class="info-label">Asignatura: </span><span class="info-value">${asig}</span>`;
                     body.appendChild(row);
                 });
 
