@@ -553,13 +553,7 @@
             <div class="card">
                 <h2 class="card-title"><i class="fas fa-calculator"></i> Calculadora de Notas</h2>
                 <form class="grade-form" id="grade-form">
-                    <div class="grade-input-group">
-                        <label for="subject-select">Selecciona una Asignatura</label>
-                        <select id="subject-select" class="grade-input">
-                            <option value="">Selecciona una asignatura</option>
-                            <!-- Options populated by JS -->
-                        </select>
-                    </div>
+                    
                     
                     <div id="grades-container" class="hidden">
                         <!-- Corte 1 -->
@@ -1124,9 +1118,9 @@
         // Platforms
         function initializePlatforms() {
             const platformLinks = {
-                campus: "https://campusvirtual.tuniversity.edu.co", // Cambia por tu link real
-                ferrum: "https://ferrum.tuniversity.edu.co",       // Cambia por tu link real
-                outlook: "https://outlook.office.com"               // Cambia por tu link real
+                campus:   "https://campusvirtual.universidad.edu.co/login",   // ← cámbialo
+                ferrum:   "https://ferrum.universidad.edu.co",                 // ← cámbialo
+                outlook:  "https://outlook.office.com/mail/"                   // este suele ser correcto
             };
             
             document.getElementById('campus-btn').addEventListener('click', () => {
@@ -1164,23 +1158,7 @@ function initializeSemesterCards() {
     });
 }
 
-function openSemesterModal(subjectsList) {
-    const modal = document.getElementById('semester-modal');
-    const modalBody = document.getElementById('semester-body');
-    modalBody.innerHTML = ''; // Limpiar contenido previo
-    
-    subjectsList.forEach(sub => {
-        const row = document.createElement('div');
-        row.className = 'info-row';
-        row.innerHTML = `
-            <span class="info-label">Asignatura:</span>
-            <span class="info-value">${sub}</span>
-        `;
-        modalBody.appendChild(row);
-    });
-    
-    modal.classList.add('active'); // Mostrar el modal
-}
+
 
 
 
