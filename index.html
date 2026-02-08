@@ -13,7 +13,11 @@
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
     <meta name="apple-mobile-web-app-title" content="Software">
+
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -37,6 +41,19 @@
 }
 
 body {
+    /* 1. Espacio de seguridad para iPhone con Notch */
+    /* 2. Respaldo de 44px (tamaño estándar de la barra de estado) para cuando env() falla */
+    padding-top: calc(env(safe-area-inset-top) + 20px) !important; 
+    
+    /* Si el dispositivo no tiene notch, esto asegura que no toque el borde */
+    margin-top: 0;
+    
+    background-color: var(--bg-primary);
+    min-height: 100dvh;
+    padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
+}
+        
+body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
@@ -47,7 +64,16 @@ body {
 .container { max-width: 100%; padding: 20px; margin: 0 auto; }
 
 /* Header */
-.app-header { text-align: center; margin-bottom: 25px; padding-top: 10px; }
+
+.app-header {
+    /* Asegura que el header tenga su propio aire */
+    padding-top: 10px;
+    margin-top: 0;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 10;
+}
+        
 .app-header h1 {
     font-size: 1.8rem;
     background: linear-gradient(to right, var(--accent-color), var(--accent-secondary));
@@ -296,12 +322,6 @@ body {
     min-height: 100dvh;
 }
 
-.app-header {
-    /* Añadimos un margen extra para que el título nunca toque la barra */
-    padding-top: 15px; 
-    text-align: center;
-    margin-bottom: 25px;
-}
 
 .tab-bar {
     /* Asegura que los iconos de abajo no queden tapados por la barra de inicio del iPhone */
@@ -322,11 +342,7 @@ body {
     min-height: 100dvh;
 }
 
-.app-header {
-    /* Quitamos cualquier padding excesivo que se sume al del body */
-    padding-top: 10px;
-    margin-bottom: 20px;
-}
+
 
         /* 2. EVITA QUE SE ESCONDAN LAS TARJETAS ABAJO */
 body {
@@ -343,7 +359,7 @@ body {
     </style>
 </head>
 <body>
-
+<div style="height: env(safe-area-inset-top); min-height: 30px; width: 100%;"></div>
     <div class="container">
         <!-- Header -->
         <header class="app-header">
