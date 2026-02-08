@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>DESARROLLO DE SOFTWARE</title>
     
     <link rel="icon" type="image/png" sizes="32x32" href="https://cdn-icons-png.flaticon.com/512/6062/6062646.png">
@@ -286,6 +287,50 @@ small {
 /* Color específico para WhatsApp si lo deseas */
 .action-btn-circle .fa-whatsapp {
     font-size: 1.4rem; /* El icono de WhatsApp suele verse un poco más pequeño */
+}
+
+
+/* Soporte para safe areas en iPhone/iPad (notch, dynamic island, status bar) */
+@supports (padding-top: env(safe-area-inset-top)) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        /* Opcional: también por abajo si quieres que el tab-bar respete el home indicator */
+        padding-bottom: env(safe-area-inset-bottom);
+        /* Y laterales si rotas el dispositivo */
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+
+    /* Ajuste fino al header para que no quede tan pegado */
+    .app-header {
+        padding-top: env(safe-area-inset-top);
+        /* O si prefieres que el fondo cubra el notch: */
+        /* margin-top: calc(-1 * env(safe-area-inset-top)); */
+        /* padding-top: calc(env(safe-area-inset-top) + 10px); */
+    }
+
+    /* Muy recomendado para el tab-bar inferior (home indicator) */
+    .tab-bar {
+        padding-bottom: env(safe-area-inset-bottom);
+        /* O si quieres que el tab-bar suba un poco más */
+        /* padding-bottom: calc(env(safe-area-inset-bottom) + 8px); */
+    }
+}
+
+/* Fallback por si env() no es soportado (muy raro hoy en día) */
+body {
+    padding-top: max( env(safe-area-inset-top, 0px), 20px );
+}
+
+
+        .app-header {
+    padding-top: env(safe-area-inset-top);
+    background: linear-gradient(to bottom, var(--bg-primary), var(--bg-primary) 50%, transparent);
+    /* O simplemente mantener el fondo sólido hasta arriba */
+}
+
+body {
+    padding-top: 0;
 }
 
         
