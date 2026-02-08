@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>DESARROLLO DE SOFTWARE</title>
     
@@ -333,6 +332,43 @@ body {
     padding-top: 0;
 }
 
+
+
+
+        /* Safe areas para iOS notch, Dynamic Island y home indicator */
+@supports (padding-top: env(safe-area-inset-top)) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        /* Opcional: laterales si rotas el teléfono */
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+
+    .app-header {
+        padding-top: env(safe-area-inset-top);
+        /* Si quieres que el header "cubra" visualmente el notch con fondo: */
+        /* background: var(--bg-primary); */
+    }
+
+    .tab-bar {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+}
+
+/* Fallback si env() no funciona (raro hoy) */
+body {
+    padding-top: max(env(safe-area-inset-top, 0px), 20px);
+}
+
+        html, body {
+    height: 100%;
+    min-height: -webkit-fill-available;   /* Muy útil en iOS */
+}
+
+body {
+    min-height: 100dvh;   /* dynamic viewport height – mejor que 100vh en móviles */
+}
         
     </style>
 </head>
