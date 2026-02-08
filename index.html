@@ -461,9 +461,11 @@ small {
 
         .safe-area-spacer {
     height: env(safe-area-inset-top);
-    min-height: 20px;           /* fallback */
+    min-height: 44px;           /* fallback */
     width: 100%;
     background: var(--bg-primary);   /* mismo color que el fondo para que no se note */
+            position: sticky;
+            top: 0;
 }
         
     </style>
