@@ -427,11 +427,13 @@ const mallaCurricular = {
 // =============================================
 function initializeSchedule() {
     const scheduleData = [
-        { day: "LUNES",    time: "18:45 - 20:15", subject: "Ambiente y Desarrollo",        professor: "Dr. Carlos Rodríguez",   email: "carlos.rodriguez@uni.edu", phone: "+573001234567", room: "AULSC_411", campus: "ZARAGOCILLA" },
-        { day: "LUNES",    time: "20:15 - 21:45", subject: "Comunicación Oral y Escrita",  professor: "Prof. Sofia Lopez",      email: "sofia.lopez@uni.edu",      phone: "+573012345678", room: "AULSC_411", campus: "ZARAGOCILLA" },
-        { day: "MARTES",   time: "18:45 - 20:15", subject: "Proyecto de Vida",             professor: "Ing. María Gómez",       email: "maria.gomez@uni.edu",      phone: "+573109876543", room: "AULSC_308", campus: "ZARAGOCILLA" },
-        { day: "MARTES",   time: "20:15 - 21:45", subject: "Precálculo",                   professor: "Ing. Ana Martínez",      email: "ana.martinez@uni.edu",     phone: "+573157890123", room: "AULSC_314", campus: "ZARAGOCILLA" },
-        { day: "MIÉRCOLES",time: "18:45 - 21:00", subject: "Algoritmo y Programación",     professor: "Dr. Luis Fernández",     email: "luis.fernandez@uni.edu",   phone: "+573204567890", room: "LABSB_F503",campus: "CEDESARROLLO" },
+        { day: "LUNES",    time: "18:45 - 20:15", subject: "Ambiente y Desarrollo",code: "2670",       professor: "Dr. Carlos Rodríguez",   email: "PENDIENTE", phone: "PENDIENTE", room: "AULSC_411", campus: "ZARAGOCILLA" },
+        { day: "LUNES",    time: "20:15 - 21:45", subject: "Comunicación Oral y Escrita",code: "3262",professor: "Prof. Sofia Lopez",      email: "PENDIENTE",      phone: "PENDIENTE", room: "AULSC_411", campus: "ZARAGOCILLA" },
+        { day: "MARTES",   time: "18:45 - 20:15", subject: "Proyecto de Vida",code: "2678",professor: "Ing. María Gómez",       email: "PENDIENTE",      phone: "PENDIENTE", room: "AULSC_308", campus: "ZARAGOCILLA" },
+        { day: "MARTES",   time: "20:15 - 21:45", subject: "Precálculo",code: "1899",      professor: "Ing. Ana Martínez",      email: "PENDIENTE",     phone: "PENDIENTE", room: "AULSC_314", campus: "ZARAGOCILLA" },
+        { day: "MIÉRCOLES",time: "18:45 - 21:00", subject: "Algoritmo y Programación",code: "3265",     professor: "Angelica Echavez",       email: "PENDIENTE",   phone: "PENDIENTE", room: "LABSB_F503",campus: "CEDESARROLLO" },
+        { day: "JUEVES",   time: "18:45 - 20:15", subject: "Algoritmo y Programación",   code: "3265",  professor: "Angelica Echavez",       email: "PENDIENTE",   phone: "PENDIENTE", room: "ADPSB_D403",campus: "CEDESARROLLO" },
+        { day: "VIERNES",  time: "18:45 - 20:15", subject: "Precálculo",       code: "1899",            professor: "Dr. Luis Fernández",     email: "PENDIENTE",   phone: "PENDIENTE", room: "aulsc_201",campus: "ZARAGOCILLA" },
         // ... puedes agregar los demás
     ];
 
@@ -445,7 +447,7 @@ function initializeSchedule() {
             <div>
                 <div class="schedule-day">${item.day}</div>
                 <div class="schedule-time">${item.time}</div>
-                <div class="schedule-subject">${item.subject}</div>
+                <div class="schedule-subject">${item.subject} <small>(#CLASE ${item.code})</small></div>
                 <div class="schedule-room">${item.room} - ${item.campus}</div>
             </div>
             <i class="fas fa-chevron-right"></i>
@@ -459,6 +461,7 @@ function openScheduleModal(item) {
     const modal = document.getElementById('schedule-modal');
     document.getElementById('modal-body').innerHTML = `
         <div class="info-row"><span class="info-label">Asignatura: </span><span class="info-value">${item.subject}</span></div>
+        <div class="info-row"><span class="info-label">Código de Clase: </span><span class="info-value">#${item.code}</span></div>
         <div class="info-row"><span class="info-label">Profesor: </span><span class="info-value">${item.professor}</span></div>
         <div class="info-row"><span class="info-label">Correo: </span><span class="info-value">${item.email}</span></div>
         <div class="info-row"><span class="info-label">Teléfono: </span><span class="info-value">${item.phone}</span></div>
