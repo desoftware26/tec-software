@@ -289,47 +289,28 @@ small {
 }
 
 
-/* Soporte para safe areas en iPhone/iPad (notch, dynamic island, status bar) */
-@supports (padding-top: env(safe-area-inset-top)) {
-    body {
-        padding-top: env(safe-area-inset-top);
-        /* Opcional: también por abajo si quieres que el tab-bar respete el home indicator */
-        padding-bottom: env(safe-area-inset-bottom);
-        /* Y laterales si rotas el dispositivo */
-        padding-left: env(safe-area-inset-left);
-        padding-right: env(safe-area-inset-right);
-    }
-
-    /* Ajuste fino al header para que no quede tan pegado */
-    .app-header {
-        padding-top: env(safe-area-inset-top);
-        /* O si prefieres que el fondo cubra el notch: */
-        /* margin-top: calc(-1 * env(safe-area-inset-top)); */
-        /* padding-top: calc(env(safe-area-inset-top) + 10px); */
-    }
-
-    /* Muy recomendado para el tab-bar inferior (home indicator) */
-    .tab-bar {
-        padding-bottom: env(safe-area-inset-bottom);
-        /* O si quieres que el tab-bar suba un poco más */
-        /* padding-bottom: calc(env(safe-area-inset-bottom) + 8px); */
-    }
-}
-
-/* Fallback por si env() no es soportado (muy raro hoy en día) */
+/* --- SOLUCIÓN PARA ESPACIADO DE BARRA SUPERIOR --- */
 body {
-    padding-top: max( env(safe-area-inset-top, 0px), 20px );
+    /* Asegura un espacio mínimo en Android y respeta el notch en iPhone */
+    padding-top: env(safe-area-inset-top, 20px); 
+    min-height: 100dvh;
 }
 
-
-        .app-header {
-    padding-top: env(safe-area-inset-top);
-    background: linear-gradient(to bottom, var(--bg-primary), var(--bg-primary) 50%, transparent);
-    /* O simplemente mantener el fondo sólido hasta arriba */
+.app-header {
+    /* Añadimos un margen extra para que el título nunca toque la barra */
+    padding-top: 15px; 
+    text-align: center;
+    margin-bottom: 25px;
 }
 
-body {
-    padding-top: 0;
+.tab-bar {
+    /* Asegura que los iconos de abajo no queden tapados por la barra de inicio del iPhone */
+    padding-bottom: calc(env(safe-area-inset-bottom) + 15px);
+}
+
+/* Ajuste para el Modal: que no se pegue arriba al abrirse */
+.modal-content {
+    margin-top: env(safe-area-inset-top);
 }
 
 
