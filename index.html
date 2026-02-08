@@ -251,7 +251,42 @@ small {
 }
 
         
-        
+        /* Contenedor de botones para centrarlos */
+.action-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+/* Botón circular simétrico */
+.action-btn-circle {
+    width: 50px;           /* Ancho fijo */
+    height: 50px;          /* Alto fijo igual al ancho */
+    border-radius: 50%;    /* Hace que sea un círculo perfecto */
+    display: flex;
+    align-items: center;   /* Centra el icono verticalmente */
+    justify-content: center; /* Centra el icono horizontalmente */
+    background-color: var(--accent-color);
+    color: white;
+    text-decoration: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(94,96,206,0.2);
+}
+
+.action-btn-circle:hover {
+    transform: scale(1.1);
+    background-color: var(--accent-secondary);
+    box-shadow: 0 6px 15px rgba(94,96,206,0.3);
+}
+
+/* Color específico para WhatsApp si lo deseas */
+.action-btn-circle .fa-whatsapp {
+    font-size: 1.4rem; /* El icono de WhatsApp suele verse un poco más pequeño */
+}
 
         
     </style>
@@ -479,11 +514,56 @@ function openScheduleModal(item) {
         <div class="info-row"><span class="info-label">Teléfono: </span><span class="info-value">${item.phone}</span></div>
         <div class="info-row"><span class="info-label">Salón: </span><span class="info-value">${item.room}</span></div>
         <div class="info-row"><span class="info-label">Sede: </span><span class="info-value">${item.campus}</span></div>
-        <div style="display:flex; justify-content:center; margin-top:25px; gap:10px;">
-            <button class="action-button" onclick="navigator.clipboard.writeText('${item.email}').then(()=>alert('Correo copiado'))"><i class="far fa-copy"></i></button>
-            <a class="action-button" href="tel:${item.phone}"><i class="fas fa-phone"></i></a>
-            <a class="action-button" href="https://wa.me/${item.phone.replace(/\D/g,'')}" target="_blank"><i class="fab fa-whatsapp"></i></a>
-        </div>
+
+
+
+
+
+
+<div class="action-buttons-container">
+  <button 
+    class="action-btn-circle" 
+    onclick="navigator.clipboard.writeText('${item.email}').then(() => alert('Correo copiado'))" 
+    title="Copiar correo"
+    aria-label="Copiar correo ${item.email}"
+  >
+    <i class="fas fa-envelope"></i>
+  </button>
+
+  <a 
+    class="action-btn-circle" 
+    href="tel:${item.phone}" 
+    title="Llamar al ${item.phone}"
+    aria-label="Llamar al teléfono ${item.phone}"
+  >
+    <i class="fas fa-phone"></i>
+  </a>
+
+  <a 
+    class="action-btn-circle" 
+    href="https://wa.me/${item.phone.replace(/\D/g,'')}" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    title="Enviar mensaje por WhatsApp"
+    aria-label="Contactar por WhatsApp al ${item.phone}"
+  >
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
     `;
     modal.classList.add('active');
 }
