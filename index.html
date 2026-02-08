@@ -314,41 +314,30 @@ body {
 }
 
 
-
-
-        /* Safe areas para iOS notch, Dynamic Island y home indicator */
-@supports (padding-top: env(safe-area-inset-top)) {
-    body {
-        padding-top: env(safe-area-inset-top);
-        padding-bottom: env(safe-area-inset-bottom);
-        /* Opcional: laterales si rotas el teléfono */
-        padding-left: env(safe-area-inset-left);
-        padding-right: env(safe-area-inset-right);
-    }
-
-    .app-header {
-        padding-top: env(safe-area-inset-top);
-        /* Si quieres que el header "cubra" visualmente el notch con fondo: */
-        /* background: var(--bg-primary); */
-    }
-
-    .tab-bar {
-        padding-bottom: env(safe-area-inset-bottom);
-    }
-}
-
-/* Fallback si env() no funciona (raro hoy) */
+/* 1. FUERZA EL ESPACIO SUPERIOR */
 body {
-    padding-top: max(env(safe-area-inset-top, 0px), 20px);
+    /* Esto crea un colchón arriba. Si hay Notch, lo respeta; si no, pone 20px */
+    padding-top: max(20px, env(safe-area-inset-top)) !important;
+    background-color: var(--bg-primary);
+    min-height: 100dvh;
 }
 
-        html, body {
-    height: 100%;
-    min-height: -webkit-fill-available;   /* Muy útil en iOS */
+.app-header {
+    /* Quitamos cualquier padding excesivo que se sume al del body */
+    padding-top: 10px;
+    margin-bottom: 20px;
 }
 
+        /* 2. EVITA QUE SE ESCONDAN LAS TARJETAS ABAJO */
 body {
-    min-height: 100dvh;   /* dynamic viewport height – mejor que 100vh en móviles */
+    /* Aumentamos el margen inferior para que el contenido suba más */
+    padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
+}
+
+.tab-bar {
+    /* Asegura que la barra de botones respete el área del iPhone */
+    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(70px + env(safe-area-inset-bottom));
 }
         
     </style>
