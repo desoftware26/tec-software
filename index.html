@@ -21,7 +21,11 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
+
+/* ==========================================================================
+   VARIABLES CSS (Custom Properties)
+   ========================================================================== */
+:root {
     --bg-primary:    #f9fbfd;
     --bg-secondary:  #ffffff;
     --bg-card:       #ffffff;
@@ -33,6 +37,9 @@
     --shadow:        0 4px 14px rgba(0,0,0,0.06);
 }
 
+/* ==========================================================================
+   RESETS Y GLOBALES
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -41,39 +48,28 @@
 }
 
 body {
-    /* 1. Espacio de seguridad para iPhone con Notch */
-    /* 2. Respaldo de 44px (tamaño estándar de la barra de estado) para cuando env() falla */
-    padding-top: calc(env(safe-area-inset-top) + 20px) !important; 
-    
-    /* Si el dispositivo no tiene notch, esto asegura que no toque el borde */
-    margin-top: 0;
-    
-    background-color: var(--bg-primary);
-    min-height: 100dvh;
-    padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
-}
-        
-body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
-    padding-bottom: 80px;
+    min-height: 100dvh;
+
+    /* Safe-area insets consolidados (prioridad alta para iOS) */
+    padding-top:    max(20px, env(safe-area-inset-top)) !important;
+    padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
 }
 
-.container { max-width: 100%; padding: 20px; margin: 0 auto; }
-
-/* Header */
-
+/* ==========================================================================
+   HEADER + TÍTULO
+   ========================================================================== */
 .app-header {
-    /* Asegura que el header tenga su propio aire */
     padding-top: 10px;
     margin-top: 0;
     margin-bottom: 25px;
     position: relative;
     z-index: 10;
 }
-        
+
 .app-header h1 {
     font-size: 1.8rem;
     background: linear-gradient(to right, var(--accent-color), var(--accent-secondary));
@@ -82,36 +78,74 @@ body {
     color: transparent;
     margin-bottom: 5px;
 }
-.app-header p { color: var(--text-secondary); font-size: 0.9rem; }
 
-/* Tab Bar */
+.app-header p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   TAB BAR (barra inferior fija)
+   ========================================================================== */
 .tab-bar {
     position: fixed;
-    bottom: 0; left: 0; width: 100%;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     background-color: var(--bg-secondary);
-    display: flex; justify-content: space-around;
+    display: flex;
+    justify-content: space-around;
     padding: 15px 0;
+    padding-bottom: calc(15px + env(safe-area-inset-bottom));
     border-top: 1px solid #e0e0e8;
     z-index: 100;
     backdrop-filter: blur(12px);
 }
+
 .tab-button {
-    background: none; border: none;
+    background: none;
+    border: none;
     color: var(--text-secondary);
     font-size: 0.8rem;
-    display: flex; flex-direction: column; align-items: center; gap: 5px;
-    padding: 5px 10px; border-radius: 10px;
-    transition: all 0.3s ease; cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
-.tab-button i { font-size: 1.4rem; }
-.tab-button.active { color: var(--accent-color); transform: translateY(-5px); }
 
-/* Content Sections */
-.content-section { display: none; animation: fadeIn 0.4s ease; }
-.content-section.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.tab-button i {
+    font-size: 1.4rem;
+}
 
-/* Cards */
+.tab-button.active {
+    color: var(--accent-color);
+    transform: translateY(-5px);
+}
+
+/* ==========================================================================
+   SECCIONES DE CONTENIDO
+   ========================================================================== */
+.content-section {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.content-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   CARDS (tarjetas base)
+   ========================================================================== */
 .card {
     background: var(--bg-card);
     border-radius: var(--border-radius);
@@ -121,22 +155,31 @@ body {
     border: 1px solid #e5e7eb;
     transition: transform 0.3s ease;
 }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.1); }
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+}
 
 .card-title {
     font-size: 1.3rem;
     margin-bottom: 15px;
     color: var(--accent-color);
-    display: flex; align-items: center; gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Semester Grid */
+/* ==========================================================================
+   MALLA CURRICULAR - Semestres
+   ========================================================================== */
 .semester-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 15px;
     margin-top: 15px;
 }
+
 .semester-card {
     background: var(--bg-card);
     border-radius: var(--border-radius);
@@ -147,35 +190,66 @@ body {
     border: 1px solid #e0e0e8;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
-.semester-card.disabled { opacity: 0.5; cursor: not-allowed; }
+
+.semester-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .semester-card:hover:not(.disabled) {
     border-color: var(--accent-color);
     transform: scale(1.03);
     box-shadow: 0 6px 20px rgba(94,96,206,0.15);
 }
-.semester-card h3 { font-size: 1.1rem; margin-bottom: 10px; color: var(--accent-color); }
 
-/* Schedule */
-.schedule-list { display: flex; flex-direction: column; gap: 15px; }
+.semester-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--accent-color);
+}
+
+/* ==========================================================================
+   HORARIO
+   ========================================================================== */
+.schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
 .schedule-item {
     background: #ffffff;
     padding: 15px;
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     cursor: pointer;
     border-left: 4px solid var(--accent-color);
     border: 1px solid #e5e7eb;
 }
 
-/* Modal */
+/* ==========================================================================
+   MODALES
+   ========================================================================== */
 .modal {
     display: none;
-    position: fixed; top:0; left:0; width:100%; height:100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0,0,0,0.8);
     z-index: 1000;
-    justify-content: center; align-items: center;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
 }
-.modal.active { display: flex; animation: fadeIn 0.3s ease; }
+
+.modal.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
 .modal-content {
     background: var(--bg-secondary);
     border-radius: var(--border-radius);
@@ -185,19 +259,45 @@ body {
     max-height: 85vh;
     overflow-y: auto;
     box-shadow: var(--shadow);
+    margin-top: env(safe-area-inset-top);
 }
+
 .modal-header {
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
     padding-bottom: 15px;
     border-bottom: 1px solid rgba(255,255,255,0.1);
 }
-.close-modal { background:none; border:none; color:var(--text-secondary); font-size:1.5rem; cursor:pointer; }
-.close-modal:hover { color: var(--accent-color); }
 
-/* Grade Calculator */
-.grade-form { display: flex; flex-direction: column; gap: 15px; }
-.grade-input-group { display: flex; flex-direction: column; gap: 10px; }
+.close-modal {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: var(--accent-color);
+}
+
+/* ==========================================================================
+   CALCULADORA DE NOTAS
+   ========================================================================== */
+.grade-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.grade-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .grade-input {
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
@@ -206,7 +306,12 @@ body {
     color: var(--text-primary);
     font-size: 1rem;
 }
-.grade-input:focus { outline:none; border-color: var(--accent-color); }
+
+.grade-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
 .add-grade-btn {
     background: rgba(108,99,255,0.2);
     color: var(--accent-color);
@@ -216,7 +321,11 @@ body {
     cursor: pointer;
     margin-top: 5px;
 }
-.add-grade-btn:hover { background: rgba(108,99,255,0.3); }
+
+.add-grade-btn:hover {
+    background: rgba(108,99,255,0.3);
+}
+
 .action-button {
     background: var(--accent-color);
     color: white;
@@ -226,7 +335,11 @@ body {
     margin: 5px;
     cursor: pointer;
 }
-.action-button:hover { background: color-mix(in srgb, var(--accent-color) 85%, black); }
+
+.action-button:hover {
+    background: color-mix(in srgb, var(--accent-color) 85%, black);
+}
+
 .result-card {
     background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
     color: white;
@@ -235,15 +348,23 @@ body {
     border-radius: var(--border-radius);
     margin-top: 20px;
 }
-.final-grade { font-size: 2.5rem; font-weight: bold; margin: 10px 0; }
 
-/* Platforms */
+.final-grade {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* ==========================================================================
+   PLATAFORMAS
+   ========================================================================== */
 .platforms-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 15px;
     margin-top: 15px;
 }
+
 .platform-card {
     background: white;
     border-radius: var(--border-radius);
@@ -252,32 +373,21 @@ body {
     cursor: pointer;
     border: 1px solid #e5e7eb;
 }
+
 .platform-card:hover {
     transform: translateY(-6px);
     border-color: var(--accent-color);
     box-shadow: 0 10px 25px rgba(94,96,206,0.18);
 }
-.platform-card i { font-size: 2rem; color: var(--accent-color); }
 
-/* Utility */
-.hidden { display: none !important; }
-.text-center { text-align: center; }
-.mt-20 { margin-top: 20px; }
-
-@media (min-width: 768px) {
-    .container { max-width: 700px; }
-    .semester-grid { grid-template-columns: repeat(5, 1fr); }
+.platform-card i {
+    font-size: 2rem;
+    color: var(--accent-color);
 }
 
-small {
-    display: block;
-    color: var(--accent-secondary);
-    font-weight: bold;
-    font-size: 0.75rem;
-}
-
-        
-        /* Contenedor de botones para centrarlos */
+/* ==========================================================================
+   BOTONES DE ACCIÓN CIRCULARES (WhatsApp, correo, teléfono)
+   ========================================================================== */
 .action-buttons-container {
     display: flex;
     justify-content: center;
@@ -285,14 +395,13 @@ small {
     margin-top: 25px;
 }
 
-/* Botón circular simétrico */
 .action-btn-circle {
-    width: 50px;           /* Ancho fijo */
-    height: 50px;          /* Alto fijo igual al ancho */
-    border-radius: 50%;    /* Hace que sea un círculo perfecto */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     display: flex;
-    align-items: center;   /* Centra el icono verticalmente */
-    justify-content: center; /* Centra el icono horizontalmente */
+    align-items: center;
+    justify-content: center;
     background-color: var(--accent-color);
     color: white;
     text-decoration: none;
@@ -309,52 +418,42 @@ small {
     box-shadow: 0 6px 15px rgba(94,96,206,0.3);
 }
 
-/* Color específico para WhatsApp si lo deseas */
 .action-btn-circle .fa-whatsapp {
-    font-size: 1.4rem; /* El icono de WhatsApp suele verse un poco más pequeño */
+    font-size: 1.4rem;
 }
 
-
-/* --- SOLUCIÓN PARA ESPACIADO DE BARRA SUPERIOR --- */
-body {
-    /* Asegura un espacio mínimo en Android y respeta el notch en iPhone */
-    padding-top: env(safe-area-inset-top, 20px); 
-    min-height: 100dvh;
+/* ==========================================================================
+   UTILIDADES
+   ========================================================================== */
+.container {
+    max-width: 100%;
+    padding: 20px;
+    margin: 0 auto;
 }
 
+.hidden { display: none !important; }
+.text-center { text-align: center; }
+.mt-20 { margin-top: 20px; }
 
-.tab-bar {
-    /* Asegura que los iconos de abajo no queden tapados por la barra de inicio del iPhone */
-    padding-bottom: calc(env(safe-area-inset-bottom) + 15px);
+small {
+    display: block;
+    color: var(--accent-secondary);
+    font-weight: bold;
+    font-size: 0.75rem;
 }
 
-/* Ajuste para el Modal: que no se pegue arriba al abrirse */
-.modal-content {
-    margin-top: env(safe-area-inset-top);
+/* ==========================================================================
+   MEDIA QUERIES
+   ========================================================================== */
+@media (min-width: 768px) {
+    .container {
+        max-width: 700px;
+    }
+    .semester-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
 }
 
-
-/* 1. FUERZA EL ESPACIO SUPERIOR */
-body {
-    /* Esto crea un colchón arriba. Si hay Notch, lo respeta; si no, pone 20px */
-    padding-top: max(20px, env(safe-area-inset-top)) !important;
-    background-color: var(--bg-primary);
-    min-height: 100dvh;
-}
-
-
-
-        /* 2. EVITA QUE SE ESCONDAN LAS TARJETAS ABAJO */
-body {
-    /* Aumentamos el margen inferior para que el contenido suba más */
-    padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
-}
-
-.tab-bar {
-    /* Asegura que la barra de botones respete el área del iPhone */
-    padding-bottom: env(safe-area-inset-bottom);
-    height: calc(70px + env(safe-area-inset-bottom));
-}
         
     </style>
 </head>
