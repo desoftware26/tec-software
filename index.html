@@ -54,16 +54,21 @@ body {
     overflow-x: hidden;
     min-height: 100dvh;
 
-    /* Safe-area insets consolidados (prioridad alta para iOS) */
-    padding-top:    max(20px, env(safe-area-inset-top)) !important;
-    padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
+/* Safe areas – versión más confiable y probada 2024-2026 */
+            padding-top:    env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left:   env(safe-area-inset-left);
+            padding-right:  env(safe-area-inset-right);
+
+            /* Fallback fuerte para status bar (44–48px en la mayoría de dispositivos modernos) */
+            padding-top:    max(44px, env(safe-area-inset-top)) !important;        
 }
 
 /* ==========================================================================
    HEADER + TÍTULO
    ========================================================================== */
 .app-header {
-    padding-top: 10px;
+    padding: 16px 20px 8px;
     margin-top: 0;
     margin-bottom: 25px;
     position: relative;
@@ -454,11 +459,17 @@ small {
     }
 }
 
+        .safe-area-spacer {
+    height: env(safe-area-inset-top);
+    min-height: 20px;           /* fallback */
+    width: 100%;
+    background: var(--bg-primary);   /* mismo color que el fondo para que no se note */
+}
         
     </style>
 </head>
 <body>
-<div style="height: env(safe-area-inset-top); min-height: 30px; width: 100%;"></div>
+<div class="safe-area-spacer"></div>
     <div class="container">
         <!-- Header -->
         <header class="app-header">
