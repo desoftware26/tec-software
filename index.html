@@ -834,23 +834,40 @@ function initializePlatforms() {
     const links = {
         campus:   "https://campus.tecnologicocomfenalco.edu.co:11200/psp/CSPRD/?cmd=login&languageCd=ESP&",
         ferrum:   "https://ferrum.tecnologicocomfenalco.edu.co/ferrum/",
-        outlook:  "https://outlook.office.com",
-        appTec:   "https://tecnologicocomfenalco.edu.co/"  // fallback si quieres, pero no lo usaremos aquí
+        outlookWeb: "https://outlook.office.com",  // fallback si la app no abre
+        appTec:   "https://tecnologicocomfenalco.edu.co/" // no se usa directamente aquí
     };
 
-    // Detectar si es iOS para elegir el link correcto de la tienda
+    // Detectar si es iOS (útil para algunos ajustes, aunque ms-outlook:// funciona en ambos)
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
+    // Link para intentar abrir la APP de Outlook directamente (abre la bandeja de entrada principal)
+    const outlookAppLink = "ms-outlook://";  
+    // Alternativas si prefieres algo más específico:
+    // const outlookAppLink = "ms-outlook://inbox";     // directo a bandeja de entrada
+    // const outlookAppLink = "ms-outlook://calendar";  // directo al calendario
+
+    // Link para la tienda de la App Tecnológico
     const appStoreLink = isIOS
         ? "https://apps.apple.com/co/app/tecnol%C3%B3gico-comfenalco/id6742500976"
         : "https://play.google.com/store/apps/details?id=org.app.tecnocomfenalco&hl=es_CO";
 
-    // Eventos para las otras plataformas
+    // Eventos para las plataformas
     document.getElementById('campus-btn')?.addEventListener('click', () => window.open(links.campus, '_blank'));
     document.getElementById('ferrum-btn')?.addEventListener('click', () => window.open(links.ferrum, '_blank'));
-    document.getElementById('outlook-btn')?.addEventListener('click', () => window.open(links.outlook, '_blank'));
 
-    // Nueva tarjeta: App Tecnológico → siempre abre la tienda
+    // Outlook: intenta abrir la APP primero → fallback a web si falla
+    document.getElementById('outlook-btn')?.addEventListener('click', () => {
+        // Intento de abrir la app de Outlook
+        window.location.href = outlookAppLink;
+
+        // Después de 1.5 segundos, si no abrió (app no instalada o no respondió), abre la web
+        setTimeout(() => {
+            window.open(links.outlookWeb, '_blank');
+        }, 1500);
+    });
+
+    // App Tecnológico: siempre abre la tienda (como ya lo tenías)
     document.getElementById('app-tec-btn')?.addEventListener('click', () => {
         window.open(appStoreLink, '_blank');
     });
