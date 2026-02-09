@@ -892,7 +892,7 @@ function initializeSemesterCards() {
                 mallaCurricular[sem].forEach(asig => {
                     const row = document.createElement('div');
                     row.className = 'info-row';
-                    row.innerHTML = `<span class="info-label">Asignatura: </span><span class="info-value">${asig}</span>`;
+                    row.innerHTML = `<span class="info-label">- </span><span class="info-value">${asig}</span>`;
                     body.appendChild(row);
                 });
 
