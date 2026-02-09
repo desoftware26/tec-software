@@ -835,28 +835,24 @@ function initializePlatforms() {
         campus:   "https://campus.tecnologicocomfenalco.edu.co:11200/psp/CSPRD/?cmd=login&languageCd=ESP&",
         ferrum:   "https://ferrum.tecnologicocomfenalco.edu.co/ferrum/",
         outlook:  "https://outlook.office.com",
-        appTec:   "https://tecnologicocomfenalco.edu.co/"  
+        appTec:   "https://tecnologicocomfenalco.edu.co/"  // fallback si quieres, pero no lo usaremos aquí
     };
 
-// Detectar SO y abrir tienda de apps
+    // Detectar si es iOS para elegir el link correcto de la tienda
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    const appStoreLink = isIOS 
+
+    const appStoreLink = isIOS
         ? "https://apps.apple.com/co/app/tecnol%C3%B3gico-comfenalco/id6742500976"
-        : "https://play.google.com/store/apps/details?id=org.app.tecnocomfenalco&hl=es_CO";  // ID probable, ajusta si conoces el package exacto
-    
-    
+        : "https://play.google.com/store/apps/details?id=org.app.tecnocomfenalco&hl=es_CO";
+
+    // Eventos para las otras plataformas
     document.getElementById('campus-btn')?.addEventListener('click', () => window.open(links.campus, '_blank'));
     document.getElementById('ferrum-btn')?.addEventListener('click', () => window.open(links.ferrum, '_blank'));
     document.getElementById('outlook-btn')?.addEventListener('click', () => window.open(links.outlook, '_blank'));
-// Nueva tarjeta: App Tecnológico
-    document.getElementById('app-tec-btn')?.addEventListener('click', () => {
-        // Intento de abrir app directamente (si está instalada)
-        window.location.href = "tecnologicocomfenalco://";  // Esquema hipotético – probablemente no funcione
 
-        // Después de 1 segundo, si no abrió, va a la tienda
-        setTimeout(() => {
-            window.open(appStoreLink, '_blank');
-        }, 1000);
+    // Nueva tarjeta: App Tecnológico → siempre abre la tienda
+    document.getElementById('app-tec-btn')?.addEventListener('click', () => {
+        window.open(appStoreLink, '_blank');
     });
 }
 
