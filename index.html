@@ -783,7 +783,7 @@ function initializeGradeCalculator() {
         document.getElementById('final-grade').textContent = final.toFixed(2);
         document.getElementById('result-status').textContent = 
             final >= 3.5 ? "Aprobado" : 
-            final >= 3.0 ? "Habilitación" : "Reprobado";
+            final >= 3.0 ? "Aprobado Raspado" : "Reprobado";
 
         document.getElementById('result-container').classList.remove('hidden');
     });
