@@ -543,6 +543,32 @@ small {
     opacity: 0.7;
 }
 
+
+/* ==========================================================================
+   BOTON FLOTANTE
+   ========================================================================== */
+.qr-float-btn {
+    position: fixed;
+    bottom: 90px; /* arriba del tab-bar */
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    z-index: 999;
+    transition: all 0.3s ease;
+}
+
+.qr-float-btn:hover {
+    transform: scale(1.1);
+    background: var(--accent-secondary);
+}
+
     </style>
 </head>
 <body>
@@ -681,6 +707,34 @@ small {
 
 
 
+
+    <!-- BOTON FLOTANTE -->
+    
+    <button class="qr-float-btn" onclick="abrirQRModal()">
+        <i class="fas fa-qrcode"></i>
+    </button>
+
+
+    <div class="modal" id="qr-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Generar Código QR</h3>
+                <button class="close-modal" onclick="cerrarQRModal()">×</button>
+            </div>
+
+            <input type="text" id="qr-texto" placeholder="Escribe el texto o link" class="grade-input">
+
+            <button class="action-button" onclick="generarQR()">
+                Generar QR
+            </button>
+
+            <div id="qr-result" style="text-align:center; margin-top:20px;"></div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
         // PWA Registration (opcional)
 if ('serviceWorker' in navigator) {
@@ -1001,7 +1055,31 @@ function openImageModal(src) {
 }
 
 
+function abrirQRModal() {
+    document.getElementById('qr-modal').classList.add('active');
+}
 
+function cerrarQRModal() {
+    document.getElementById('qr-modal').classList.remove('active');
+}
+
+function generarQR() {
+    const texto = document.getElementById("qr-texto").value;
+
+    if (!texto) {
+        alert("Escribe algo primero");
+        return;
+    }
+
+    const contenedor = document.getElementById("qr-result");
+    contenedor.innerHTML = "";
+
+    new QRCode(contenedor, {
+        text: texto,
+        width: 200,
+        height: 200
+    });
+}
 
     </script>
 <div id="imageModal" class="modal-img-container" onclick="this.style.display='none'">
